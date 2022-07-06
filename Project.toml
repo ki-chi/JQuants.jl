@@ -1,0 +1,13 @@
+name = "JQuants"
+uuid = "9ec6771f-e08b-47bc-92e5-dcad4d5f32bd"
+authors = ["ki-chi <k.brilliant@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.7"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
