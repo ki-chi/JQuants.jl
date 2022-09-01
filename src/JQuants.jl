@@ -52,10 +52,10 @@ function authorize(mailaddress, password)
     return isvalid_auth()
 end
 
-function get(endpointkey::EndPointKey, query)
+function get(endpointkey::EndPointKey; kwargs...)
     endpoint = JPX_URL * endpoints[endpointkey]
     headers = ["Authorization" => "Bearer $(ID_TOKEN[])"]
-    resp = HTTP.get(endpoint, headers=headers, query=query)
+    resp = HTTP.get(endpoint, headers=headers; kwargs...)
     body = JSON.parse(String(resp.body))
 
     if resp.status != 200
