@@ -2,6 +2,9 @@ module JQuants
 
 using HTTP
 using JSON
+using DataFrames
+
+export authorize, getlistedinfo
 
 const REFRESH_TOKEN = Ref{String}()
 const ID_TOKEN = Ref{String}()
@@ -80,6 +83,12 @@ function post(endpointkey::EndPointKey; kwargs...)
 
     return body
 end
+
+function getlistedinfo(;code="")
+    listed_infos = get(ListedInfo; query=["code"=>code])["info"]
+    vcat(DataFrame.(listed_infos)...)
+end
+
 
 
 end # module
