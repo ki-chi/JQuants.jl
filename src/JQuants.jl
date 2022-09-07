@@ -4,7 +4,7 @@ using HTTP
 using JSON
 using DataFrames
 
-export authorize, getinfo, getsections, getdailyquotes
+export authorize, getinfo, getsections, getdailyquotes, getfinstatements
 
 const REFRESH_TOKEN = Ref{String}()
 const ID_TOKEN = Ref{String}()
@@ -110,6 +110,21 @@ function getdailyquotes(;code=nothing, from=nothing, to=nothing, date=nothing)
 
     daily_quotes = get(PricesDailyQuotes; query=query)["daily_quotes"]
     vcat(DataFrame.(daily_quotes)...)
+end
+
+function getfinstatements(;code=nothing, date=nothing)
+    if !(isnothing(code) ⊻ isnothing(date))
+        error("Only one of \"code\" or \"date\" must be specified.")
+    end
+    
+    if isnothing(code) # i.e. 'date' is not nothing
+        query = ["date"=>date]
+    else
+        query = ["code"=>code]
+    end
+
+    statesments = get(FinsStatements, query=query)["statements"]
+    vcat(DataFrame.(statesments)...)
 end
 
 
