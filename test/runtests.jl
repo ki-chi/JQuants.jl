@@ -3,10 +3,8 @@ using DataFrames
 using Test
 
 @testset "Authorization" begin
-    refresh_token = ENV["JQUANTS_REFRESH_TOKEN"]
     mail_address = ENV["JQUANTS_MAIL_ADDRESS"]
     password = ENV["JQUANTS_PASSWORD"]
-    @test JQuants.authorize(refresh_token)
     @test JQuants.authorize(mail_address, password)
 end
 
@@ -47,4 +45,9 @@ end
 
     @test names(one_code_all_daily_quotes) == expected_colnames
     @test eltype.(eachcol(one_code_all_daily_quotes)) == expected_coltypes
+
+    # No output on a holiday
+    daily_quotes_null = getdailyquotes(date="2022-08-28")
+    @test isempty(daily_quotes_null)
+    @test daily_quotes_null == Any[]
 end
