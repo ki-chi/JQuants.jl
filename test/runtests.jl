@@ -54,3 +54,96 @@ end
     @test isempty(daily_quotes_null)
     @test daily_quotes_null == Any[]
 end
+
+@testset "Financial statements by code" begin
+    statements = getfinstatements(code="86970")
+    expected_colnames = [
+        "ApplyingOfSpecificAccountingOfTheQuarterlyFinancialStatements",
+        "AverageNumberOfShares",
+        "BookValuePerShare",
+        "ChangesBasedOnRevisionsOfAccountingStandard",
+        "ChangesInAccountingEstimates",
+        "ChangesOtherThanOnesBasedOnRevisionsOfAccountingStandard",
+        "CurrentFiscalYearEndDate",
+        "CurrentFiscalYearStartDate",
+        "CurrentPeriodEndDate",
+        "DisclosedDate",
+        "DisclosedTime",
+        "DisclosedUnixTime",
+        "DisclosureNumber",
+        "EarningsPerShare",
+        "Equity",
+        "EquityToAssetRatio",
+        "ForecastDividendPerShare1stQuarter",
+        "ForecastDividendPerShare2ndQuarter",
+        "ForecastDividendPerShare3rdQuarter",
+        "ForecastDividendPerShareAnnual",
+        "ForecastDividendPerShareFiscalYearEnd",
+        "ForecastEarningsPerShare",
+        "ForecastNetSales",
+        "ForecastOperatingProfit",
+        "ForecastOrdinaryProfit",
+        "ForecastProfit",
+        "LocalCode",
+        "MaterialChangesInSubsidiaries",
+        "NetSales",
+        "NumberOfIssuedAndOutstandingSharesAtTheEndOfFiscalYearIncludingTreasuryStock",
+        "NumberOfTreasuryStockAtTheEndOfFiscalYear",
+        "OperatingProfit",
+        "OrdinaryProfit",
+        "Profit",
+        "ResultDividendPerShare1stQuarter",
+        "ResultDividendPerShare2ndQuarter",
+        "ResultDividendPerShare3rdQuarter",
+        "ResultDividendPerShareAnnual",
+        "ResultDividendPerShareFiscalYearEnd",
+        "RetrospectiveRestatement",
+        "TotalAssets",
+        "TypeOfCurrentPeriod",
+        "TypeOfDocument"
+    ]
+    expected_coltypes = repeat([String], 43)
+
+    @test sort(names(statements)) == expected_colnames
+    @test eltype.(eachcol(statements)) == expected_coltypes
+end
+
+@testset "Financial statements by date" begin
+    statements = getfinstatements(date="2022-01-05")
+
+    expected_codes = [
+        "13760",
+        "17120",
+        "26590",
+        "27530",
+        "27890",
+        "32820",
+        "38250",
+        "65520",
+        "76790",
+        "97930",
+        "97930",
+        "99770"
+    ]
+
+    @test sort(statements[!, :LocalCode]) == expected_codes
+end
+
+@testset "Financial announcement" begin
+    ann = getfinannouncement()
+
+    expected_colnames = [
+        "Code",
+        "Date",
+        "CompanyName",
+        "FiscalYear",
+        "SectorName",
+        "FiscalQuarter",
+        "Section"
+    ]
+
+    expected_coltypes = repeat([String], 7)
+
+    @test sort(names(ann)) == sort(expected_colnames)
+    @test eltype.(eachcol(ann)) == expected_coltypes
+end
