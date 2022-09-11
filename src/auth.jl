@@ -32,7 +32,7 @@ You can access your tokens as `JQuants.REFRESH_TOKEN[]` and `JQuants.ID_TOKEN[]`
 
 # Examples
 
-```jl
+```julia
 julia> reftoken = [YOUR REFRESH TOKEN];
 
 julia> authorize(reftoken)
