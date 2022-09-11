@@ -2,4 +2,6 @@
 
 ```@docs
 authorize
+getinfo
+getsections
 ```
