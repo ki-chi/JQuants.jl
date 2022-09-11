@@ -1,0 +1,5 @@
+# JQuants.jl
+
+```@docs
+authorize
+```
