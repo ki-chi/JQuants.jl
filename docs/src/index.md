@@ -4,4 +4,5 @@
 authorize
 getinfo
 getsections
+getdailyquotes
 ```
