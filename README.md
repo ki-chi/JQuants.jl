@@ -53,7 +53,7 @@ julia> getfinannouncement(); # Get announcement of the next-day financial disclo
 # Reference
 
 - [J-Quants API](https://application.jpx-jquants.com/)
-- [J-Quants API Reference](https://jpx.gitbook.io/j-quants-api/api-reference)
+- [J-Quants API Reference](https://jpx.gitbook.io/j-quants-api-en/api-reference)
 
 
 # Acknowledgements
