@@ -4,7 +4,7 @@ using HTTP
 using JSON
 using DataFrames
 
-export authorize, getinfo, getsections, getdailyquotes, getfinstatements
+export authorize, getinfo, getsections, getdailyquotes, getfinstatements, getfinannouncement
 
 const REFRESH_TOKEN = Ref{String}()
 const ID_TOKEN = Ref{String}()
@@ -17,6 +17,7 @@ const JPX_URL = "https://api.jpx-jquants.com/v1"
     ListedSections
     PricesDailyQuotes
     FinsStatements
+    FinsAnnouncement
 end
 
 const endpoints = Base.ImmutableDict(
@@ -25,7 +26,8 @@ const endpoints = Base.ImmutableDict(
     ListedInfo => "/listed/info",
     ListedSections => "/listed/sections",
     PricesDailyQuotes => "/prices/daily_quotes",
-    FinsStatements => "/fins/statements"
+    FinsStatements => "/fins/statements",
+    FinsAnnouncement => "/fins/announcement"
 )
 
 
@@ -127,6 +129,9 @@ function getfinstatements(;code=nothing, date=nothing)
     vcat(DataFrame.(statesments)...)
 end
 
-
+function getfinannouncement()
+    announcement = get(FinsAnnouncement)["announcement"]
+    vcat(DataFrame.(announcement)...)
+end
 
 end # module
