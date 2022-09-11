@@ -24,7 +24,7 @@ julia> authorize([YOUR EMAIL ADDRESS], [PASSWORD])
 true
 ```
 
-## Get matket data
+## Get market data
 
 This package covers [all APIs](https://jpx.gitbook.io/j-quants-api-en/api-reference)
 for downloading data by the J-Quants API.
