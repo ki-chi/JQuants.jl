@@ -6,4 +6,5 @@ getinfo
 getsections
 getdailyquotes
 getfinstatements
+getfinannouncement
 ```
