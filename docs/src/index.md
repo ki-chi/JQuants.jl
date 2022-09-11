@@ -5,4 +5,5 @@ authorize
 getinfo
 getsections
 getdailyquotes
+getfinstatements
 ```

@@ -288,6 +288,87 @@ function getdailyquotes(;code::AbstractString="", from::AbstractString="",
     vcat(DataFrame.(daily_quotes)...)
 end
 
+"""
+    getfinstatements(; code::AbstractString = "", date::AbstractString = "")
+
+Return `DataFrame` holding financial statements based on quarterly disclosures.
+
+Either `code` or `date` must be specified.
+
+- If you specify `code`, you get all historical financial statements of the specified stock.
+- If you specify `date`, you get all financial statements disclosed on the day.
+
+Arguments
+
+- `code::AbstractString=""`: issue code
+- `date::AbstractString=""`: disclosure date 
+
+# Examples
+
+These examples display the limited columns of data.
+
+```jldoctest
+julia> fs = getfinstatements(code="86970");
+
+julia> fs[!,[:LocalCode, :CurrentFiscalYearEndDate, :CurrentPeriodEndDate, :DisclosedDate, :TypeOfCurrentPeriod, :TypeOfDocument, :TotalAssets]]
+29×7 DataFrame
+ Row │ LocalCode  CurrentFiscalYearEndDate  CurrentPeriodEndDate  DisclosedDate  TypeOfCurrentPeriod  TypeOfDocument                     TotalAssets
+     │ String     String                    String                String         String               String                             String
+─────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ 86970      2017-03-31                2016-12-31            2017-01-30     3Q                   3QFinancialStatements_Consolidat…  40450677000000
+   2 │ 86970      2017-03-31                2017-03-31            2017-03-22     FY                   ForecastRevision
+   3 │ 86970      2017-03-31                2017-03-31            2017-04-28     FY                   FYFinancialStatements_Consolidat…  41288932000000
+   4 │ 86970      2018-03-31                2017-06-30            2017-07-28     1Q                   1QFinancialStatements_Consolidat…  37878487000000
+   5 │ 86970      2018-03-31                2017-09-30            2017-10-30     2Q                   2QFinancialStatements_Consolidat…  42523504000000
+   6 │ 86970      2018-03-31                2017-12-31            2018-01-31     3Q                   3QFinancialStatements_Consolidat…  37987261000000
+   7 │ 86970      2018-03-31                2018-03-31            2018-03-22     FY                   ForecastRevision
+   8 │ 86970      2018-03-31                2018-03-31            2018-04-27     FY                   FYFinancialStatements_Consolidat…  41316341000000
+   9 │ 86970      2019-03-31                2018-06-30            2018-07-30     1Q                   1QFinancialStatements_Consolidat…  35842130000000
+  10 │ 86970      2019-03-31                2018-09-30            2018-10-29     2Q                   2QFinancialStatements_Consolidat…  42544750000000
+  11 │ 86970      2019-03-31                2018-12-31            2019-01-29     3Q                   3QFinancialStatements_Consolidat…  55009203000000
+  12 │ 86970      2019-03-31                2019-03-31            2019-04-26     FY                   FYFinancialStatements_Consolidat…  54069405000000
+  13 │ 86970      2020-03-31                2019-06-30            2019-07-30     1Q                   1QFinancialStatements_Consolidat…  56422396000000
+  14 │ 86970      2020-03-31                2020-03-31            2019-09-25     FY                   ForecastRevision
+  15 │ 86970      2020-03-31                2019-09-30            2019-10-30     2Q                   2QFinancialStatements_Consolidat…  68410143000000
+  16 │ 86970      2020-03-31                2019-12-31            2020-01-30     3Q                   3QFinancialStatements_Consolidat…  56671198000000
+  17 │ 86970      2020-03-31                2020-03-31            2020-03-23     FY                   ForecastRevision
+  18 │ 86970      2020-03-31                2020-03-31            2020-04-30     FY                   FYFinancialStatements_Consolidat…  67286302000000
+  19 │ 86970      2021-03-31                2020-06-30            2020-07-29     1Q                   1QFinancialStatements_Consolidat…  60827068000000
+  20 │ 86970      2021-03-31                2020-09-30            2020-10-28     2Q                   2QFinancialStatements_Consolidat…  60545559000000
+  21 │ 86970      2021-03-31                2020-12-31            2021-01-28     3Q                   3QFinancialStatements_Consolidat…  59393100000000
+  22 │ 86970      2021-03-31                2021-03-31            2021-03-22     FY                   ForecastRevision
+  23 │ 86970      2021-03-31                2021-03-31            2021-04-28     FY                   FYFinancialStatements_Consolidat…  60075678000000
+  24 │ 86970      2022-03-31                2021-06-30            2021-07-28     1Q                   1QFinancialStatements_Consolidat…  61301218000000
+  25 │ 86970      2022-03-31                2021-09-30            2021-10-27     2Q                   2QFinancialStatements_Consolidat…  59583064000000
+  26 │ 86970      2022-03-31                2021-12-31            2022-01-27     3Q                   3QFinancialStatements_Consolidat…  62076519000000
+  27 │ 86970      2022-03-31                2022-03-31            2022-03-22     FY                   ForecastRevision
+  28 │ 86970      2022-03-31                2022-03-31            2022-04-26     FY                   FYFinancialStatements_Consolidat…  71463434000000
+  29 │ 86970      2023-03-31                2022-06-30            2022-07-27     1Q                   1QFinancialStatements_Consolidat…  76048180000000
+```
+
+```jldoctest
+julia> fs = getfinstatements(date="2022-01-05");
+
+julia> fs[!,[:LocalCode, :CurrentFiscalYearEndDate, :CurrentPeriodEndDate, :DisclosedDate, :TypeOfCurrentPeriod, :TypeOfDocument, :TotalAssets]]
+12×7 DataFrame
+ Row │ LocalCode  CurrentFiscalYearEndDate  CurrentPeriodEndDate  DisclosedDate  TypeOfCurrentPeriod  TypeOfDocument                     TotalAssets
+     │ String     String                    String                String         String               String                             String
+─────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ 27530      2022-03-31                2021-12-31            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  24937000000
+   2 │ 97930      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  97786000000
+   3 │ 97930      2022-02-28                2022-02-28            2022-01-05     FY                   ForecastRevision
+   4 │ 27890      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  5878000000
+   5 │ 13760      2022-05-31                2021-11-30            2022-01-05     2Q                   2QFinancialStatements_Consolidat…  38635000000
+   6 │ 17120      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  22853000000
+   7 │ 65520      2022-05-31                2021-11-30            2022-01-05     2Q                   2QFinancialStatements_Consolidat…  4891000000
+   8 │ 76790      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  64392000000
+   9 │ 26590      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_Consolidat…  164870000000
+  10 │ 38250      2022-03-31                2022-03-31            2022-01-05     FY                   ForecastRevision
+  11 │ 99770      2022-02-28                2021-11-30            2022-01-05     3Q                   3QFinancialStatements_NonConsoli…  30476000000
+  12 │ 32820      2022-01-31                2022-01-31            2022-01-05     FY                   ForecastRevision_REIT
+```
+
+"""
 function getfinstatements(;code::AbstractString="", date::AbstractString="")
     if !(isempty(code) ⊻ isempty(date))
         error("Only one of \"code\" or \"date\" must be specified.")
