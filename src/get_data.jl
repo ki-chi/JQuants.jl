@@ -137,8 +137,8 @@ end
 """
     getdailyquotes(; code::AbstractString = "",
                    from::AbstractString = "",
-                   to::AbstractString="",
-                   date::AbstractString="")
+                   to::AbstractString = "",
+                   date::AbstractString = "")
 
 Return `DataFrame` holding daily stock price information. 
 
@@ -147,7 +147,7 @@ from three patterns below:
 
 1. Pass `code`: All historical stock prices of a specific issue
 2. Pass `code`, `from`, and `to`: Stock prices of a specific issue for the specified period
-3. Pass `Date`: All listed issue prices for the specific date
+3. Pass `date`: All listed issue prices for the specific date
 
 Note: either `code` or `date` must be specified.
 
@@ -266,7 +266,7 @@ julia> getdailyquotes(date="2022-09-09")
  4193 │ 1210.0                        1.0  1210.0          1201.0         1201.0          700.0             1210.0   99960   20220909  1210.0   1201.0   1201.0   843500.0       700.0
  4194 │ 729.0                         1.0  732.0           725.0          727.0           280400.0          729.0    99970   20220909  732.0    725.0    727.0    2.0404e8       280400.0
                                                                                                                                                                           4151 rows omitted
-````
+```
 
 """
 function getdailyquotes(;code::AbstractString="", from::AbstractString="",
