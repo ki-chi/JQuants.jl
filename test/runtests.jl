@@ -3,9 +3,9 @@ using DataFrames
 using Test
 
 @testset "Authorization" begin
-    mail_address = ENV["JQUANTS_MAIL_ADDRESS"]
+    emailaddress = ENV["JQUANTS_EMAIL_ADDRESS"]
     password = ENV["JQUANTS_PASSWORD"]
-    @test JQuants.authorize(mail_address, password)
+    @test JQuants.authorize(emailaddress, password)
 end
 
 @testset "Listed issues information" begin

@@ -1,10 +1,10 @@
-const REFRESH_TOKEN = Ref{String}()
-const ID_TOKEN = Ref{String}()
+const REFRESH_TOKEN = Ref{AbstractString}()
+const ID_TOKEN = Ref{AbstractString}()
 
 isvalid_auth() = isdefined(REFRESH_TOKEN, 1) && isdefined(ID_TOKEN, 1) 
 
-function update_ref_token(mailaddress, password)
-    body = JSON.json(Dict("mailaddress"=>mailaddress, "password"=>password))
+function update_ref_token(emailaddress, password)
+    body = JSON.json(Dict("mailaddress"=>emailaddress, "password"=>password))
     resp = post(JQuants.TokenAuthUser, body=body)
     REFRESH_TOKEN[] = resp["refreshToken"]
 end
@@ -14,14 +14,23 @@ function update_id_token()
     ID_TOKEN[] = resp["idToken"]
 end
 
-function authorize(refresh_token)
+
+"""
+    authorize(refresh_token::AbstractString)
+    authorize(emailaddress::AbstractString, password::AbstractString)
+
+Authorize by the refresh token `refresh_token`, or the combination of email address `emailaddress` and password `password`.
+"""
+function authorize end
+
+function authorize(refresh_token::AbstractString)
     REFRESH_TOKEN[] = refresh_token
     update_id_token()
     return isvalid_auth()
 end
 
-function authorize(mailaddress, password)
-    update_ref_token(mailaddress, password)
+function authorize(emailaddress::AbstractString, password::AbstractString)
+    update_ref_token(emailaddress, password)
     update_id_token()
     return isvalid_auth()
 end
