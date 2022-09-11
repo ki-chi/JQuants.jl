@@ -43,8 +43,11 @@ end
         Union{Nothing, Float64}, Union{Nothing, Float64}
     ]
 
-    @test names(one_code_all_daily_quotes) == expected_colnames
-    @test eltype.(eachcol(one_code_all_daily_quotes)) == expected_coltypes
+    @test sort(names(one_code_all_daily_quotes)) == expected_colnames
+
+    for (colname, coltype) in zip(expected_colnames, expected_coltypes)
+        @test eltype(one_code_all_daily_quotes[!, colname]) == coltype 
+    end
 
     # No output on a holiday
     daily_quotes_null = getdailyquotes(date="2022-08-28")
