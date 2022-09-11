@@ -2,12 +2,13 @@
 
 [The J-Quants API](https://application.jpx-jquants.com/) wrapper for Julia. 
 
-You have to [register](https://application.jpx-jquants.com/register) to use the API.
-
 The J-Quants API is provided as a beta version,
 and this package is also under development. The API specifications are subject to change in the future.
 
 # How to use
+
+You have to [register](https://application.jpx-jquants.com/register) to use the API.
+If you choose to authorize by using "Refresh token", you should get the token from [the portal of J-Quants API](https://application.jpx-jquants.com/).
 
 ## Authorization
 
@@ -26,9 +27,11 @@ true
 ## Get matket data
 
 This package covers [all APIs](https://jpx.gitbook.io/j-quants-api-en/api-reference)
-for downloading data by J-Quants API.
+for downloading data by the J-Quants API.
 
 ```julia
+# Run after authorization
+
 julia> getinfo();  # Get listed issues
 
 julia> getsections();  # Get definitions of sector codes (in Japanese)
@@ -37,7 +40,7 @@ julia> getdailyquotes(date="2022-09-09");  # Get daily stock prices
 
 julia> getfinstatements(code="86970");  # Get financial statements
 
-julia> getfinannouncement(); Get announcement of the next-day financial disclosure
+julia> getfinannouncement(); # Get announcement of the next-day financial disclosure
 ```
 
 # Disclaimers
