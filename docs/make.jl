@@ -1,4 +1,5 @@
-using Documenter, JQuants
+using Documenter
+using JQuants
 
 makedocs(
     modules=[JQuants],
