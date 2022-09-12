@@ -398,7 +398,7 @@ The details of this API are [here](https://jpx.gitbook.io/j-quants-api-en/api-re
 
 # Examples
 
-```julia
+```jldoctest
 julia> getfinannouncement()
 54×7 DataFrame
  Row │ Code    CompanyName                        Date      FiscalQuarter  FiscalYear  Section       SectorName
