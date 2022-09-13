@@ -32,7 +32,7 @@ You can access your tokens as `JQuants.REFRESH_TOKEN[]` and `JQuants.ID_TOKEN[]`
 
 # Examples
 
-```julia
+```jldoctest
 julia> reftoken = [YOUR REFRESH TOKEN];
 
 julia> authorize(reftoken)
@@ -40,7 +40,7 @@ true
 ```
 
 ```jldoctest
-julia> email, pass = ENV["JQUANTS_EMAIL_ADDRESS"], ENV["JQUANTS_PASSWORD"];
+julia> email, pass = [YOUR EMAIL ADDRESS], [YOUR PASSWORD]
 
 julia> authorize(email, pass)
 true
