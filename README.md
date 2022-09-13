@@ -1,14 +1,21 @@
 # JQuants.jl
 
+[![CI](https://github.com/ki-chi/JQuants.jl/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ki-chi/JQuants.jl/actions/workflows/ci.yml)
+[![][docs-stable-img]][docs-stable-url] [![][docs-dev-img]][docs-dev-url]
+
 [The J-Quants API](https://application.jpx-jquants.com/) wrapper for Julia. 
 
-The J-Quants API is provided as a beta version,
-and this package is also under development. The API specifications are subject to change in the future.
+The J-Quants API is an distribution service that delivers historical stock prices and financial statements data through API,
+provided by JPX Market Innovation & Research, Inc.
+The API service is provided as a beta version, and the API specifications are subject to change in the future. 
+
+This client package helps you easily use the API from Julia. 
 
 # How to use
 
-You have to [register](https://application.jpx-jquants.com/register) to use the API.
+You have to [register](https://application.jpx-jquants.com/register) to use the J-Quants API.
 If you choose to authorize by using "Refresh token", you should get the token from [the portal of J-Quants API](https://application.jpx-jquants.com/).
+You can also authorize using the email address and password registered for the J-Quants API.
 
 ## Authorization
 
@@ -62,3 +69,10 @@ Several ideas were taken from the packages below:
 
 - [J-Quants/jquants-api-client-python](https://github.com/J-Quants/jquants-api-client-python): Python package for the J-Quants API
 - [J-Quants/JQuantsR](https://github.com/J-Quants/JQuantsR): R package for the J-Quants API
+
+
+[docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
+[docs-dev-url]: https://ki-chi.github.io/JQuants.jl/dev/
+
+[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-stable-url]: https://ki-chi.github.io/JQuants.jl/stable/
