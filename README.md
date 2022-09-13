@@ -50,7 +50,7 @@ julia> getfinstatements(code="86970");  # Get financial statements
 julia> getfinannouncement(); # Get announcement of the next-day financial disclosure
 ```
 
-See the [documentation](docs-stable-url) for detailed usage of the functions.
+See the [documentation][docs-stable-url] for detailed usage of the functions.
 
 # Disclaimers
 
