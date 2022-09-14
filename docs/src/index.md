@@ -16,6 +16,12 @@ In the Julia REPL:
 ] add https://github.com/ki-chi/JQuants.jl.git
 ```
 
+or
+
+```
+julia> using Pkg; Pkg.add(url="https://github.com/ki-chi/JQuants.jl.git")
+```
+
 ## Example
 
 ```jldoctest
