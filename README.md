@@ -15,7 +15,7 @@ This client package helps you easily use the API from Julia.
 
 ## Installation
 
-```julia
+```
 ] add https://github.com/ki-chi/JQuants.jl.git
 ```
 ## Authorization
