@@ -15,9 +15,18 @@ This client package helps you easily use the API from Julia.
 
 ## Installation
 
+In the Julia REPL:
+
 ```
 ] add https://github.com/ki-chi/JQuants.jl.git
 ```
+
+or
+
+```
+julia> using Pkg; Pkg.add(url="https://github.com/ki-chi/JQuants.jl.git")
+```
+
 ## Authorization
 
 You have to [register](https://application.jpx-jquants.com/register) to use the J-Quants API.
