@@ -13,11 +13,16 @@ This client package helps you easily use the API from Julia.
 
 # How to use
 
+## Installation
+
+```julia
+] add https://github.com/ki-chi/JQuants.jl.git
+```
+## Authorization
+
 You have to [register](https://application.jpx-jquants.com/register) to use the J-Quants API.
 If you choose to authorize by using "Refresh token", you should get the token from [the portal of J-Quants API](https://application.jpx-jquants.com/).
 You can also authorize using the email address and password registered for the J-Quants API.
-
-## Authorization
 
 ```julia
 julia> authorize([YOUR REFRESH TOKEN])
