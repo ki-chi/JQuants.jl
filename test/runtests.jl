@@ -1,6 +1,7 @@
 using JQuants
 using DataFrames
 using Test
+using Dates
 
 @testset "Authorization" begin
     emailaddress = ENV["JQUANTS_EMAIL_ADDRESS"]
@@ -49,6 +50,24 @@ end
         @test eltype(one_code_all_daily_quotes[!, colname]) == coltype 
     end
 
+    # date specified
+    one_date_all_issue_quotes = getdailyquotes(date="2022-09-09")
+
+    @test sort(names(one_date_all_issue_quotes)) == expected_colnames
+
+    for (colname, coltype) in zip(expected_colnames, expected_coltypes)
+        @test eltype(one_date_all_issue_quotes[!, colname]) == coltype 
+    end
+
+    # Using Dates.Date type
+    one_date_all_issue_quotes_datetype = getdailyquotes(date=Dates.Date(2022,9,9))
+
+    @test sort(names(one_date_all_issue_quotes_datetype)) == expected_colnames
+
+    for (colname, coltype) in zip(expected_colnames, expected_coltypes)
+        @test eltype(one_date_all_issue_quotes_datetype[!, colname]) == coltype 
+    end
+
     # No output on a holiday
     daily_quotes_null = getdailyquotes(date="2022-08-28")
     @test isempty(daily_quotes_null)
@@ -56,7 +75,10 @@ end
 end
 
 @testset "Financial statements by code" begin
-    statements = getfinstatements(code="86970")
+    statements_code = getfinstatements(code="86970")
+    statements_date = getfinstatements(date="2022-01-05")
+    statements_datetype = getfinstatements(date=Date(2022,1,5))
+
     expected_colnames = [
         "ApplyingOfSpecificAccountingOfTheQuarterlyFinancialStatements",
         "AverageNumberOfShares",
@@ -104,12 +126,17 @@ end
     ]
     expected_coltypes = repeat([String], 43)
 
-    @test sort(names(statements)) == expected_colnames
-    @test eltype.(eachcol(statements)) == expected_coltypes
+    @test sort(names(statements_code)) == expected_colnames
+    @test eltype.(eachcol(statements_code)) == expected_coltypes
+    @test sort(names(statements_date)) == expected_colnames
+    @test eltype.(eachcol(statements_date)) == expected_coltypes
+    @test sort(names(statements_datetype)) == expected_colnames
+    @test eltype.(eachcol(statements_datetype)) == expected_coltypes
 end
 
 @testset "Financial statements by date" begin
     statements = getfinstatements(date="2022-01-05")
+    statements_datetype = getfinstatements(date=Dates.Date(2022,1,5))
 
     expected_codes = [
         "13760",
@@ -127,6 +154,7 @@ end
     ]
 
     @test sort(statements[!, :LocalCode]) == expected_codes
+    @test sort(statements_datetype[!, :LocalCode]) == expected_codes
 end
 
 @testset "Financial announcement" begin
