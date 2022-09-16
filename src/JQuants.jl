@@ -1,5 +1,7 @@
 module JQuants
 
+using Dates
+
 using HTTP
 using JSON
 using DataFrames
