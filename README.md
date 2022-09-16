@@ -34,6 +34,8 @@ If you choose to authorize by using "Refresh token", you should get the token fr
 You can also authorize using the email address and password registered for the J-Quants API.
 
 ```julia
+julia> using JQuants
+
 julia> authorize([YOUR REFRESH TOKEN])
 true
 ```
@@ -58,6 +60,8 @@ julia> getinfo();  # Get listed issues
 julia> getsections();  # Get definitions of sector codes (in Japanese)
 
 julia> getdailyquotes(date="2022-09-09");  # Get daily stock prices
+
+julia> getdailyquotes(date=Date(2022, 9, 9));  # Dates.Date type is also OK
 
 julia> getfinstatements(code="86970");  # Get financial statements
 

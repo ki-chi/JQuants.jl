@@ -136,9 +136,9 @@ end
 
 """
     getdailyquotes(; code::AbstractString = "",
-                   from::AbstractString = "",
-                   to::AbstractString = "",
-                   date::AbstractString = "")
+                   from::Union{AbstractString, Date} = "",
+                   to::Union{AbstractString, Date} = "",
+                   date::Union{AbstractString, Date} = "")
 
 Return `DataFrame` holding daily stock price information. 
 
@@ -154,9 +154,9 @@ Note: either `code` or `date` must be specified.
 Arguments
 
 - `code::AbstractString=""`: issue code (e.g. \"27800\" or \"2780\")
-- `from::AbstractString=""`: starting point of data period （e.g. \"20210901\" or \"2021-09-01\"）
-- `to::AbstractString=""`: end point of data period （e.g. \"20210907\" or \"2021-09-07\"）
-- `date::AbstractString=""`: data of data （e.g. \"20210907\" or \"2021-09-07\"）
+- `from::Union{AbstractString, Date}=""`: starting point of data period （e.g. \"20210901\" or \"2021-09-01\"）
+- `to::Union{AbstractString, Date}=""`: end point of data period （e.g. \"20210907\" or \"2021-09-07\"）
+- `date::Union{AbstractString, Date}=""`: data of data （e.g. \"20210907\" or \"2021-09-07\"）
 
 The details of this API are [here](https://jpx.gitbook.io/j-quants-api-en/api-reference/prices-api#daily-stock-price-information).
 
@@ -269,8 +269,13 @@ julia> getdailyquotes(date="2022-09-09")
 ```
 
 """
-function getdailyquotes(;code::AbstractString="", from::AbstractString="",
-                        to::AbstractString="", date::AbstractString="")
+function getdailyquotes(;code::AbstractString="", from::Union{AbstractString, Date}="",
+                        to::Union{AbstractString, Date}="", date::Union{AbstractString, Date}="")
+    # Type conversion
+    from = from isa Date ? Dates.format(from, "yyyy-mm-dd") : from
+    to = to isa Date ? Dates.format(to, "yyyy-mm-dd") : to
+    date = date isa Date ? Dates.format(date, "yyyy-mm-dd") : date
+
     if isempty(code) && !isempty(date)
         query = ["date"=>date]
     elseif !isempty(code)
@@ -289,7 +294,7 @@ function getdailyquotes(;code::AbstractString="", from::AbstractString="",
 end
 
 """
-    getfinstatements(; code::AbstractString = "", date::AbstractString = "")
+    getfinstatements(; code::AbstractString = "", date::Union{AbstractString, Date} = "")
 
 Return `DataFrame` holding financial statements based on quarterly disclosures.
 
@@ -301,7 +306,7 @@ Either `code` or `date` must be specified.
 Arguments
 
 - `code::AbstractString=""`: issue code
-- `date::AbstractString=""`: disclosure date 
+- `date::Union{AbstractString, Date}=""`: disclosure date 
 
 # Examples
 
@@ -369,7 +374,10 @@ julia> fs[!,[:LocalCode, :CurrentFiscalYearEndDate, :CurrentPeriodEndDate, :Disc
 ```
 
 """
-function getfinstatements(;code::AbstractString="", date::AbstractString="")
+function getfinstatements(;code::AbstractString="", date::Union{AbstractString, Date}="")
+    # Type conversion
+    date = date isa Date ? Dates.format(date, "yyyy-mm-dd") : date
+
     if !(isempty(code) ⊻ isempty(date))
         error("Only one of \"code\" or \"date\" must be specified.")
     end
