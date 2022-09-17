@@ -1,4 +1,6 @@
 function get(endpointkey::EndPointKey; kwargs...)
+    !isvalid_auth() && throw(JQuantsInvalidTokenError())
+
     endpoint = JPX_URL * endpoints[endpointkey]
     headers = ["Authorization" => "Bearer $(ID_TOKEN[])"]
     resp = HTTP.get(endpoint, headers=headers; kwargs...)
