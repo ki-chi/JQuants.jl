@@ -3,7 +3,7 @@ function get(endpointkey::EndPointKey; kwargs...)
 
     endpoint = JPX_URL * endpoints[endpointkey]
     headers = ["Authorization" => "Bearer $(ID_TOKEN[])"]
-    resp = HTTP.get(endpoint, headers=headers; kwargs...)
+    resp = HTTP.get(endpoint, retries=2, headers=headers; kwargs...)
     body = JSON.parse(String(resp.body))
 
     if resp.status != 200
@@ -17,7 +17,7 @@ end
 
 function post(endpointkey::EndPointKey; kwargs...)
     endpoint = JPX_URL * endpoints[endpointkey]
-    resp = HTTP.post(endpoint; kwargs...)
+    resp = HTTP.post(endpoint, retries=2; kwargs...)
     body = JSON.parse(String(resp.body))
 
     if resp.status != 200
