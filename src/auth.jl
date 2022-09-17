@@ -1,7 +1,9 @@
 const REFRESH_TOKEN = Ref{AbstractString}()
 const ID_TOKEN = Ref{AbstractString}()
 
-isvalid_auth() = isdefined(REFRESH_TOKEN, 1) && isdefined(ID_TOKEN, 1) 
+isvalid_auth() = isdefined(REFRESH_TOKEN, 1) && isdefined(ID_TOKEN, 1)
+check_refresh_token() = REFRESH_TOKEN[]
+check_id_token() = ID_TOKEN[]
 
 function update_ref_token(emailaddress, password)
     body = JSON.json(Dict("mailaddress"=>emailaddress, "password"=>password))
@@ -27,7 +29,7 @@ and [here](https://jpx.gitbook.io/j-quants-api-en/api-reference/refresh).
 
 This package temporally holds your ID Token and Refresh Token as the package-internal variables.
 Once authorized, reauthorization is not required until that the process of Julia exits or the tokens expires.
-You can access your tokens as `JQuants.REFRESH_TOKEN[]` and `JQuants.ID_TOKEN[]`.
+You can check your tokens using `JQuants.check_refresh_token()` and `JQuants.check_id_token()`.
 
 
 # Examples

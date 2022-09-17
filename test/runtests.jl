@@ -3,6 +3,10 @@ using DataFrames
 using Test
 using Dates
 
+@testset "Undefined tokens error" begin
+    @test_throws JQuants.JQuantsInvalidTokenError getdailyquotes(date="2022-09-09")
+end
+
 @testset "Authorization" begin
     emailaddress = ENV["JQUANTS_EMAIL_ADDRESS"]
     password = ENV["JQUANTS_PASSWORD"]

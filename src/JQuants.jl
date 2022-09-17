@@ -31,6 +31,9 @@ const endpoints = Base.ImmutableDict(
     FinsAnnouncement => "/fins/announcement"
 )
 
+# Errors
+include("errors.jl")
+
 # Get & Post functions
 include("http.jl")
 
