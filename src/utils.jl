@@ -1,7 +1,6 @@
 @reexport module Utils
 
 import ..JQuants: getdailyquotes
-using Base.Threads
 using DataFrames
 using Dates
 
@@ -31,10 +30,14 @@ function getdailyquotes(from::Union{AbstractString, Date}, to::Union{AbstractStr
 
     dfs = Vector{DataFrame}(undef, length(days))
 
-    @threads for i in 1:length(days)
-        df = getdailyquotes(date=days[i])
-        if df isa DataFrame && !isempty(df)
-            dfs[i] = df
+    @sync begin
+        for i in 1:length(days)
+            Threads.@spawn begin
+                df = getdailyquotes(date=days[i])
+                if df isa DataFrame && !isempty(df)
+                    dfs[i] = df
+                end
+            end
         end 
     end
     
