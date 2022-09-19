@@ -31,7 +31,7 @@ function getdailyquotes(from::Union{AbstractString, Date}, to::Union{AbstractStr
 
     dfs = Vector{DataFrame}(undef, length(days))
 
-    @threads for i in 1:length(days)
+    for i in 1:length(days)
         df = getdailyquotes(date=days[i])
         if df isa DataFrame && !isempty(df)
             dfs[i] = df
