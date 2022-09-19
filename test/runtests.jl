@@ -179,3 +179,15 @@ end
     @test sort(names(ann)) == sort(expected_colnames)
     @test eltype.(eachcol(ann)) == expected_coltypes
 end
+
+@testset "Multiple dates dailyquotes" begin
+    from, to = Date(2022,9,5), Date(2022,9,9)
+    multidailyquotes = getdailyquotes(from, to)
+
+    dailyquotes_by_singles = [getdailyquotes(date=d) for d in Date(2022,9,5):Day(1):Date(2022,9,9)]
+    dailyquotes_concat = vcat(dailyquotes_by_singles...)
+
+    @test size(multidailyquotes) == size(dailyquotes_concat)
+
+    @test getdailyquotes(from, from) == getdailyquotes(date=from)
+end

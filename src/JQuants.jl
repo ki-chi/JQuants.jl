@@ -5,6 +5,7 @@ using Dates
 using HTTP
 using JSON
 using DataFrames
+using Reexport
 
 export authorize, getinfo, getsections, getdailyquotes, getfinstatements, getfinannouncement
 
@@ -42,5 +43,8 @@ include("auth.jl")
 
 # For market data API
 include("get_data.jl")
+
+# Utility functions
+include("utils.jl")
 
 end # module
