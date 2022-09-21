@@ -191,3 +191,69 @@ end
 
     @test getdailyquotes(from, from) == getdailyquotes(date=from)
 end
+
+@testset "Investment Trends by Investor Type" begin
+    from, to = Date(2022,8,1), Date(2022,9,9)
+    trades_specs = gettradesspecs(from=from, to=to)
+
+    expected_colnames = [
+        "BrokerageBalance",
+        "BrokeragePurchases",
+        "BrokerageSales",
+        "BrokerageTotal",
+        "BusinessCosBalance",
+        "BusinessCosPurchases",
+        "BusinessCosSales",
+        "BusinessCosTotal",
+        "CityBKsRegionalBKsEtcBalance",
+        "CityBKsRegionalBKsEtcPurchases",
+        "CityBKsRegionalBKsEtcSales",
+        "CityBKsRegionalBKsEtcTotal",
+        "EndDate",
+        "ForeignersBalance",
+        "ForeignersPurchases",
+        "ForeignersSales",
+        "ForeignersTotal",
+        "IndividualsBalance",
+        "IndividualsPurchases",
+        "IndividualsSales",
+        "IndividualsTotal",
+        "InsuranceCosBalance",
+        "InsuranceCosPurchases",
+        "InsuranceCosSales",
+        "InsuranceCosTotal",
+        "InvestmentTrustsBalance",
+        "InvestmentTrustsPurchases",
+        "InvestmentTrustsSales",
+        "InvestmentTrustsTotal",
+        "OtherCosBalance",
+        "OtherCosPurchases",
+        "OtherCosSales",
+        "OtherCosTotal",
+        "OtherFinancialInstitutionsBalance",
+        "OtherFinancialInstitutionsPurchases",
+        "OtherFinancialInstitutionsSales",
+        "OtherFinancialInstitutionsTotal",
+        "ProprietaryBalance",
+        "ProprietaryPurchases",
+        "ProprietarySales",
+        "ProprietaryTotal",
+        "PublishedDate",
+        "Section",
+        "SecuritiesCosBalance",
+        "SecuritiesCosPurchases",
+        "SecuritiesCosSales",
+        "SecuritiesCosTotal",
+        "StartDate",
+        "TotalBalance",
+        "TotalPurchases",
+        "TotalSales",
+        "TotalTotal",
+        "TrustBanksBalance",
+        "TrustBanksPurchases",
+        "TrustBanksSales",
+        "TrustBanksTotal"
+    ]
+
+    @test sort(names(trades_specs)) == sort(expected_colnames)
+end
