@@ -477,6 +477,22 @@ end
 """
     gettradesspecs(;section::AbstractString = "", from::Union{Date,AbstractString} = "", to::Union{Date,AbstractString} = "")
 
+Return `DataFrame` holding the investment trend statistics by investor types.
+
+If you specify `section` (ex. "TSEPrime"), you fetch the statistics filtered only for the market section.
+
+If you specify `from` and `to`, the data holds the statistics published between `from` and `to`.
+
+
+# Example
+
+```jldoctest
+julia> trades_specs = gettradesspecs(section="TSEPrime", from="2022-09-01", to="2022-09-08");
+
+julia> size(trades_specs)
+(2, 56)                                                                                                                                                                                   47 columns omitted
+
+```
 
 """
 function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractString}="", to::Union{Date,AbstractString}="")

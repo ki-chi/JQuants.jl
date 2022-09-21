@@ -66,6 +66,8 @@ julia> getdailyquotes(date=Date(2022, 9, 9));  # Dates.Date type is also OK
 julia> getfinstatements(code="86970");  # Get financial statements
 
 julia> getfinannouncement(); # Get announcement of the next-day financial disclosure
+
+julia> gettradesspecs();  # Get investment trend statistics by investor types
 ```
 
 See the [documentation][docs-stable-url] for detailed usage of the functions.
