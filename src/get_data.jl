@@ -1,4 +1,14 @@
 """
+    date2str(x)
+
+Convert `x` to "yyyy-mm-dd" formated string if `x` is `Date`.
+"""
+date2str(x) = error("argument 'x' must be AbstractSttinrg or Date.")
+date2str(x::AbstractString) = x
+date2str(x::Date) = Dates.format(x, "yyyy-mm-dd")
+
+
+"""
     getinfo()
     getinfo(code::AbstractString)
 
@@ -462,4 +472,30 @@ julia> getfinannouncement()
 function getfinannouncement()
     announcement = get(FinsAnnouncement)["announcement"]
     vcat(DataFrame.(announcement)...)
+end
+
+"""
+    gettradesspecs(;section::AbstractString = "", from::Union{Date,AbstractString} = "", to::Union{Date,AbstractString} = "")
+
+
+"""
+function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractString}="", to::Union{Date,AbstractString}="")
+    from_datestr, to_datestr = date2str(from), date2str(to)
+    
+    if isempty(section) && isempty(from_datestr) && isempty(to_datestr)
+        query = nothing
+    elseif !isempty(section)
+        if isempty(from_datestr) || isempty(to_datestr)
+            query = ["section"=>section]
+        else
+            query = ["section"=>section, "from"=>from_datestr, "to"=>to_datestr]
+        end
+    elseif !isempty(from_datestr) || !isempty(to_datestr)
+        query = ["from"=>from_datestr, "to"=>to_datestr]
+    else 
+        @show section, from, to
+        error("Unsupported combination.")
+    end
+    trades_spec = get(MarketsTradeSpec; query=query)["trades_spec"]
+    vcat(DataFrame.(trades_spec)...)
 end

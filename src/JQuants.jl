@@ -7,7 +7,8 @@ using JSON
 using DataFrames
 using Reexport
 
-export authorize, getinfo, getsections, getdailyquotes, getfinstatements, getfinannouncement
+export authorize, getinfo, getsections, getdailyquotes, getfinstatements, getfinannouncement, gettradesspecs
+
 
 const JPX_URL = "https://api.jpx-jquants.com/v1"
 
