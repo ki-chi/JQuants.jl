@@ -14,6 +14,7 @@ Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 DataFrames = "1"
 HTTP = "1"
 JSON = "0.21"
+Reexport = "1"
 julia = "1.6"
 
 [extras]
