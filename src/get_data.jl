@@ -282,17 +282,17 @@ julia> getdailyquotes(date="2022-09-09")
 function getdailyquotes(;code::AbstractString="", from::Union{AbstractString, Date}="",
                         to::Union{AbstractString, Date}="", date::Union{AbstractString, Date}="")
     # Type conversion
-    from = from isa Date ? Dates.format(from, "yyyy-mm-dd") : from
-    to = to isa Date ? Dates.format(to, "yyyy-mm-dd") : to
-    date = date isa Date ? Dates.format(date, "yyyy-mm-dd") : date
+    from_str = date2str(from)
+    to_str = date2str(to)
+    date_str = date2str(date)
 
-    if isempty(code) && !isempty(date)
-        query = ["date"=>date]
+    if isempty(code) && !isempty(date_str)
+        query = ["date"=>date_str]
     elseif !isempty(code)
-        if isempty(from) || isempty(to)
+        if isempty(from_str) || isempty(to_str)
             query = ["code"=>code]
         else
-            query = ["code"=>code, "from"=>from, "to"=>to]
+            query = ["code"=>code, "from"=>from_str, "to"=>to_str]
         end
     else
         @show code, from, to, date
@@ -386,14 +386,14 @@ julia> fs[!,[:LocalCode, :CurrentFiscalYearEndDate, :CurrentPeriodEndDate, :Disc
 """
 function getfinstatements(;code::AbstractString="", date::Union{AbstractString, Date}="")
     # Type conversion
-    date = date isa Date ? Dates.format(date, "yyyy-mm-dd") : date
+    date_str = date2str(date)
 
-    if !(isempty(code) ⊻ isempty(date))
+    if !(isempty(code) ⊻ isempty(date_str))
         error("Only one of \"code\" or \"date\" must be specified.")
     end
     
     if isempty(code) # i.e. 'date' is not nothing
-        query = ["date"=>date]
+        query = ["date"=>date_str]
     else
         query = ["code"=>code]
     end
