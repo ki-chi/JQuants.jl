@@ -1,7 +1,7 @@
 name = "JQuants"
 uuid = "9ec6771f-e08b-47bc-92e5-dcad4d5f32bd"
 authors = ["ki-chi <k.brilliant@gmail.com> and contributors"]
-version = "0.2.2"
+version = "0.2.0"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
