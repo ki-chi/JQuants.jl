@@ -515,3 +515,28 @@ function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractSt
     trades_spec = get(MarketsTradeSpec; query=query)["trades_spec"]
     vcat(DataFrame.(trades_spec)...)
 end
+
+"""
+    gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,AbstractString} = "")
+
+Return `DataFrame` holding daily TOPIX (Tokyo Stock Price Index) data.
+
+When you specify `from` and `to`, the data holds the TOPIX between them. If not, it contains all available historical data.
+
+"""
+function gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,AbstractString} = "")
+    from_datestr, to_datestr = date2str(from), date2str(to)
+    
+    if isempty(from_datestr) && isempty(to_datestr)
+        query = nothing
+    elseif isempty(from_datestr)
+        query = ["to"=>to_datestr]
+    elseif isempty(to_datestr)
+        query = ["from"=>from_datestr]
+    else
+        query = ["from"=>from_datestr, "to"=>to_datestr]
+    end
+
+    topix_prices = get(IndicesTopix; query=query)["topix"]
+    vcat(DataFrame.(topix_prices)...)[!, [:Date, :Open, :High, :Low, :Close]]
+end

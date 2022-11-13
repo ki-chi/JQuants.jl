@@ -257,3 +257,18 @@ end
 
     @test sort(names(trades_specs)) == sort(expected_colnames)
 end
+
+@testset "TOPIX information" begin
+    from, to = Date(2022,8,1), Date(2022,9,9)
+    topix_prices = gettopix(from=from, to=to)
+
+    expected_colnames = [
+        "Date",
+        "Open",
+        "Close",
+        "Low",
+        "High"
+    ]
+
+    @test sort(names(topix_prices)) == sort(expected_colnames)
+end

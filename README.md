@@ -68,6 +68,8 @@ julia> getfinstatements(code="86970");  # Get financial statements
 julia> getfinannouncement(); # Get announcement of the next-day financial disclosure
 
 julia> gettradesspecs();  # Get investment trend statistics by investor types
+
+julia> gettopix();  # Get daily 'TOPIX' index data
 ```
 
 See the [documentation][docs-stable-url] for detailed usage of the functions.

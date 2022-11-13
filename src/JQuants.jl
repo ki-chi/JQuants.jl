@@ -7,7 +7,10 @@ using JSON
 using DataFrames
 using Reexport
 
-export authorize, getinfo, getsections, getdailyquotes, getfinstatements, getfinannouncement, gettradesspecs
+export authorize, getinfo, getsections, getdailyquotes,
+    getfinstatements, getfinannouncement, gettradesspecs,
+    gettopix
+    
 
 
 const JPX_URL = "https://api.jpx-jquants.com/v1"
@@ -22,6 +25,7 @@ const JPX_URL = "https://api.jpx-jquants.com/v1"
     FinsStatements
     FinsAnnouncement
     MarketsTradeSpec
+    IndicesTopix
 end
 
 const endpoints = Base.ImmutableDict(
@@ -32,7 +36,8 @@ const endpoints = Base.ImmutableDict(
     PricesDailyQuotes => "/prices/daily_quotes",
     FinsStatements => "/fins/statements",
     FinsAnnouncement => "/fins/announcement",
-    MarketsTradeSpec => "/markets/trades_spec"
+    MarketsTradeSpec => "/markets/trades_spec",
+    IndicesTopix => "/indices/topix"
 )
 
 # Errors
