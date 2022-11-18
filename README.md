@@ -18,13 +18,13 @@ This client package helps you easily use the API from Julia.
 In the Julia REPL:
 
 ```
-] add https://github.com/ki-chi/JQuants.jl.git
+] JQuants
 ```
 
 or
 
 ```
-julia> using Pkg; Pkg.add(url="https://github.com/ki-chi/JQuants.jl.git")
+julia> using Pkg; Pkg.add("JQuants")
 ```
 
 ## Authorization
