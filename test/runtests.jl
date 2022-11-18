@@ -15,14 +15,28 @@ end
 
 @testset "Listed issues information" begin
     code = "86970"  # JPX
-    listed_info = getinfo(code=code)
+    date = "20221111"
+    listed_info = getinfo(code=code, date=date)
 
+    expected_colnames = [
+        "Date", "Code", "CompanyName", "Sector17Code",
+        "Sector17CodeName", "Sector33Code", "Sector33CodeName",
+        "ScaleCategory", "MarketCode", "MarketCodeName",
+    ]
+
+    @test sort(names(listed_info)) == sort(expected_colnames)
+
+    @test listed_info[begin, :Date] == "20221111"
     @test listed_info[begin, :Code] == "86970"
-    @test listed_info[begin, :CompanyName] == "ＪＰＸ"
-    @test listed_info[begin, :CompanyNameEnglish] == "Japan Exchange Group,Inc."
-    @test listed_info[begin, :CompanyNameFull] == "（株）日本取引所グループ"
-    @test listed_info[begin, :MarketCode] == "A"
-    @test listed_info[begin, :SectorCode] == "7200"
+    @test listed_info[begin, :CompanyName] == "日本取引所グループ"
+    @test listed_info[begin, :Sector17Code] == "16"
+    @test listed_info[begin, :Sector17CodeName] == "金融（除く銀行）"
+    @test listed_info[begin, :Sector33Code] == "7200"
+    @test listed_info[begin, :Sector33CodeName] == "その他金融業"
+    @test listed_info[begin, :ScaleCategory] == "TOPIX Large70"
+    @test listed_info[begin, :MarketCode] == "111"
+    @test listed_info[begin, :MarketCodeName] == "プライム"
+
 end
 
 @testset "Listed sections" begin

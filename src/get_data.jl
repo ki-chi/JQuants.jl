@@ -85,8 +85,20 @@ julia> getinfo(code="86970")
 ```
 
 """
-function getinfo(;code="")
-    listed_infos = get(ListedInfo; query=["code"=>code])["info"]
+function getinfo(;code="", date="")
+    date_str = date2str(date)
+
+    if isempty(code) && isempty(date_str)
+        query = []
+    elseif isempty(code)
+        query = ["date"=>date_str]
+    elseif isempty(date_str)
+        query = ["code"=>code]
+    else
+        query = ["date"=>date_str, "code"=>code]
+    end
+
+    listed_infos = get(ListedInfo; query=query)["info"]
     vcat(DataFrame.(listed_infos)...)
 end
 
