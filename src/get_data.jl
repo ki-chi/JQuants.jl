@@ -488,6 +488,22 @@ Return `DataFrame` holding daily TOPIX (Tokyo Stock Price Index) data.
 
 When you specify `from` and `to`, the data holds the TOPIX between them. If not, it contains all available historical data.
 
+```jldoctest
+julia> gettopix()
+460×5 DataFrame
+ Row │ Date      Open     High     Low      Close
+     │ String    Float64  Float64  Float64  Float64
+─────┼──────────────────────────────────────────────
+   1 │ 20210104  1810.45  1811.68  1776.6   1794.59
+   2 │ 20210105  1788.63  1797.12  1784.8   1791.22
+   3 │ 20210106  1790.86  1802.98  1789.68  1796.18
+  ⋮  │    ⋮         ⋮        ⋮        ⋮        ⋮
+ 457 │ 20221115  1958.22  1966.49  1957.44  1964.22
+ 458 │ 20221116  1964.48  1966.78  1948.89  1963.29
+ 459 │ 20221117  1962.79  1972.75  1962.79  1966.28
+ 460 │ 20221118  1971.79  1976.33  1966.06  1967.03
+```
+
 """
 function gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,AbstractString} = "")
     from_datestr, to_datestr = date2str(from), date2str(to)
