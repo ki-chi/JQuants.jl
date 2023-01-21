@@ -49,6 +49,9 @@ include("http.jl")
 # Authorization
 include("auth.jl")
 
+# Data types
+include("datatypes.jl")
+
 # For market data API
 include("get_data.jl")
 
