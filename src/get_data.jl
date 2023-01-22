@@ -50,7 +50,8 @@ julia> getinfo(code="86970")
 ```
 
 """
-function getinfo(;code="", date="")
+function getinfo(;code="", date="", types="original")
+    @assert types in ["original", "converted"]
     date_str = date2str(date)
 
     if isempty(code) && isempty(date_str)
@@ -64,7 +65,9 @@ function getinfo(;code="", date="")
     end
 
     listed_infos = get(ListedInfo; query=query)["info"]
-    vcat(DataFrame.(listed_infos)...)
+    df_info = vcat(DataFrame.(listed_infos)...)
+
+    types == "converted" ? convert(dataschemes[ListedInfo], df_info) : df_info
 end
 
 """
@@ -116,9 +119,12 @@ julia> getsections()
   34 │ 0050        水産・農林業
 ```
 """
-function getsections()
+function getsections(; types="original")
+    @assert types in ["original", "converted"]
     listed_sections = get(ListedSections)["sections"]
-    vcat(DataFrame.(listed_sections)...)
+    df = vcat(DataFrame.(listed_sections)...)
+
+    types == "converted" ? convert(dataschemes[ListedSections], df) : df
 end
 
 """
@@ -257,7 +263,10 @@ julia> getdailyquotes(date="2022-09-09")
 
 """
 function getdailyquotes(;code::AbstractString="", from::Union{AbstractString, Date}="",
-                        to::Union{AbstractString, Date}="", date::Union{AbstractString, Date}="")
+                        to::Union{AbstractString, Date}="", date::Union{AbstractString, Date}="",
+                        types="original")
+    @assert types in ["original", "converted"]
+
     # Type conversion
     from_str = date2str(from)
     to_str = date2str(to)
@@ -277,7 +286,9 @@ function getdailyquotes(;code::AbstractString="", from::Union{AbstractString, Da
     end
 
     daily_quotes = get(PricesDailyQuotes; query=query)["daily_quotes"]
-    vcat(DataFrame.(daily_quotes)...)
+    df = vcat(DataFrame.(daily_quotes)...)
+
+    types == "converted" ? convert(dataschemes[PricesDailyQuotes], df) : df
 end
 
 """
@@ -361,7 +372,9 @@ julia> fs[!,[:LocalCode, :CurrentFiscalYearEndDate, :CurrentPeriodEndDate, :Disc
 ```
 
 """
-function getfinstatements(;code::AbstractString="", date::Union{AbstractString, Date}="")
+function getfinstatements(;code::AbstractString="", date::Union{AbstractString, Date}="", types="original")
+    @assert types in ["original", "converted"]
+
     # Type conversion
     date_str = date2str(date)
 
@@ -376,7 +389,9 @@ function getfinstatements(;code::AbstractString="", date::Union{AbstractString, 
     end
 
     statesments = get(FinsStatements, query=query)["statements"]
-    vcat(DataFrame.(statesments)...)
+    df = vcat(DataFrame.(statesments)...)
+
+    types == "converted" ? convert(dataschemes[FinsStatements], df) : df
 end
 
 """
@@ -446,9 +461,11 @@ julia> getfinannouncement()
 ```
 
 """
-function getfinannouncement()
+function getfinannouncement(; types="original")
     announcement = get(FinsAnnouncement)["announcement"]
-    vcat(DataFrame.(announcement)...)
+    df = vcat(DataFrame.(announcement)...)
+
+    types == "converted" ? convert(dataschemes[FinsAnnouncement], df) : df
 end
 
 """
@@ -472,7 +489,9 @@ julia> size(trades_specs)
 ```
 
 """
-function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractString}="", to::Union{Date,AbstractString}="")
+function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractString}="", to::Union{Date,AbstractString}="",
+                        types = "original")
+    @assert types in ["original", "converted"]
     from_datestr, to_datestr = date2str(from), date2str(to)
     
     if isempty(section) && isempty(from_datestr) && isempty(to_datestr)
@@ -490,7 +509,9 @@ function gettradesspecs(;section::AbstractString="", from::Union{Date,AbstractSt
         error("Unsupported combination.")
     end
     trades_spec = get(MarketsTradeSpec; query=query)["trades_spec"]
-    vcat(DataFrame.(trades_spec)...)
+    df = vcat(DataFrame.(trades_spec)...)
+
+    types == "converted" ? convert(dataschemes[MarketsTradeSpec], df) : df
 end
 
 """
@@ -517,7 +538,8 @@ julia> gettopix()
 ```
 
 """
-function gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,AbstractString} = "")
+function gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,AbstractString} = "", types="original")
+    @assert types in ["original", "converted"]
     from_datestr, to_datestr = date2str(from), date2str(to)
     
     if isempty(from_datestr) && isempty(to_datestr)
@@ -531,5 +553,7 @@ function gettopix(;from::Union{Date, AbstractString} = "", to::Union{Date,Abstra
     end
 
     topix_prices = get(IndicesTopix; query=query)["topix"]
-    vcat(DataFrame.(topix_prices)...)[!, [:Date, :Open, :High, :Low, :Close]]
+    df = vcat(DataFrame.(topix_prices)...)[!, [:Date, :Open, :High, :Low, :Close]]
+
+    types == "converted" ? convert(dataschemes[IndicesTopix], df) : df
 end
