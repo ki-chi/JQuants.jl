@@ -1,6 +1,6 @@
 struct ColType
     name::Symbol
-    original::DataType
+    original::Union{DataType,Union}
     target::Union{DataType,Union}
     convert::Union{Function,Nothing}
 end
@@ -11,16 +11,24 @@ DataScheme = Vector{ColType}
 
 const NULL_STR = ["", "－"]
 
+
 function Base.convert(scheme::DataScheme, df)
     df_conv = copy(df)
     for coltype in scheme
         if coltype.original != coltype.target
+
+            # Convert Nothing to Missing
+            if coltype.original >: Nothing && coltype.target >: Missing
+                df_conv[!, coltype.name] = map(x -> isnothing(x) ? missing : x, df_conv[!, coltype.name])
+            end
 
             # Replace null strings to missing
             if coltype.original <: AbstractString && coltype.target >: Missing
                 allowmissing!(df_conv, coltype.name)
                 replace!(x -> x ∈ NULL_STR ? missing : x, df_conv[!, coltype.name])
             end
+
+            Base.nonnothingtype(coltype.original) == Base.nonmissingtype(coltype.target) && continue
 
             if isnothing(coltype.convert)
                 if Base.nonmissingtype(coltype.target) <: Number
@@ -41,6 +49,24 @@ str2bool(::DataType, x) = x == "true"
 
 dataschemes = Dict{EndPointKey,DataScheme}()
 
+dataschemes[PricesDailyQuotes] = DataScheme(
+    [
+        ColType(:AdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:AdjustmentFactor, Float64, Float64),
+        ColType(:AdjustmentHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:AdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:AdjustmentOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:AdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:Close, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:Code, String, String),
+        ColType(:Date, String, String),
+        ColType(:High, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:Low, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:Open, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:TurnoverValue, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:Volume, Union{Nothing,Float64}, Union{Float64,Missing})
+    ]
+)
 
 dataschemes[FinsStatements] = DataScheme(
     [
