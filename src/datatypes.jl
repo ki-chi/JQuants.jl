@@ -11,7 +11,6 @@ DataScheme = Vector{ColType}
 
 const NULL_STR = ["", "－"]
 
-
 function Base.convert(scheme::DataScheme, df)
     df_conv = copy(df)
     for coltype in scheme
@@ -46,8 +45,31 @@ function Base.convert(scheme::DataScheme, df)
 end
 
 str2bool(::DataType, x) = x == "true"
+ymd(::DataType, x) = Date(x, "YYYYmmdd")
 
 dataschemes = Dict{EndPointKey,DataScheme}()
+
+dataschemes[ListedInfo] = DataScheme(
+    [
+        ColType(:Date, String, Date, ymd),
+        ColType(:Code, String, String),
+        ColType(:CompanyName, String, String),
+        ColType(:Sector17Code, String, String),
+        ColType(:Sector17CodeName, String, String),
+        ColType(:Sector33Code, String, String),
+        ColType(:Sector33CodeName, String, String),
+        ColType(:ScaleCategory, String, String),
+        ColType(:MarketCode, String, String),
+        ColType(:MarketCodeName, String, String)
+    ]
+)
+
+dataschemes[ListedSections] = DataScheme(
+    [
+        ColType(:SectorCode, String, String),
+        ColType(:SectorName, String, String)
+    ]
+)
 
 dataschemes[PricesDailyQuotes] = DataScheme(
     [
@@ -59,7 +81,7 @@ dataschemes[PricesDailyQuotes] = DataScheme(
         ColType(:AdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:Close, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:Code, String, String),
-        ColType(:Date, String, String),
+        ColType(:Date, String, Date, ymd),
         ColType(:High, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:Low, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:Open, Union{Nothing,Float64}, Union{Float64,Missing}),
@@ -177,3 +199,24 @@ dataschemes[MarketsTradeSpec] = DataScheme(
     ColType(:TrustBanksTotal, Float64, Float64)
 ])
 
+dataschemes[FinsAnnouncement] = DataScheme(
+    [
+        ColType(:Code, String, String),
+        ColType(:Date, String, Date, ymd),
+        ColType(:CompanyName, String, String),
+        ColType(:FiscalYear, String, String),
+        ColType(:SectorName, String, String),
+        ColType(:FiscalQuarter, String, String),
+        ColType(:Section, String, String)
+    ]
+)
+
+dataschemes[IndicesTopix] = DataScheme(
+    [
+        ColType(:Date, String, Date, ymd),
+        ColType(:Open, Float64, Float64),
+        ColType(:Close, Float64, Float64),
+        ColType(:Low, Float64, Float64),
+        ColType(:High, Float64, Float64)
+    ]
+)
