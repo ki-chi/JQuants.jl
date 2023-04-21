@@ -22,10 +22,16 @@ const JQUANTS_URI = "https://api.jquants.com/v1"
     ListedInfo
     ListedSections
     PricesDailyQuotes
-    FinsStatements
-    FinsAnnouncement
+    PricesAM
     MarketsTradeSpec
+    MarketsWeeklyMarginInterest
+    MarketsShortSelling
+    MarketsBreakdown
     IndicesTopix
+    FinsStatements
+    FinsDividend
+    FinsAnnouncement
+    OptionIndexOption
 end
 
 const endpoints = Base.ImmutableDict(
@@ -34,10 +40,16 @@ const endpoints = Base.ImmutableDict(
     ListedInfo => "/listed/info",
     ListedSections => "/listed/sections",
     PricesDailyQuotes => "/prices/daily_quotes",
-    FinsStatements => "/fins/statements",
-    FinsAnnouncement => "/fins/announcement",
+    PricesAM => "/prices/prices_am",
     MarketsTradeSpec => "/markets/trades_spec",
-    IndicesTopix => "/indices/topix"
+    MarketsWeeklyMarginInterest => "/markets/weekly_margin_interest",
+    MarketsShortSelling => "/markets/short_selling",
+    MarketsBreakdown => "/markets/breakdown",
+    IndicesTopix => "/indices/topix",
+    FinsStatements => "/fins/statements",
+    FinsDividend => "/fins/dividend",
+    FinsAnnouncement => "/fins/announcement",
+    OptionIndexOption => "/option/index_option",
 )
 
 # Errors
