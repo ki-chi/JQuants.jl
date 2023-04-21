@@ -1,7 +1,7 @@
 function get(endpointkey::EndPointKey; kwargs...)
     !isvalid_auth() && throw(JQuantsInvalidTokenError())
 
-    endpoint = JPX_URL * endpoints[endpointkey]
+    endpoint = JQUANTS_URI * endpoints[endpointkey]
     headers = ["Authorization" => "Bearer $(ID_TOKEN[])"]
     resp = HTTP.get(endpoint, retries=2, headers=headers; kwargs...)
     body = JSON.parse(String(resp.body))
@@ -16,7 +16,7 @@ function get(endpointkey::EndPointKey; kwargs...)
 end
 
 function post(endpointkey::EndPointKey; kwargs...)
-    endpoint = JPX_URL * endpoints[endpointkey]
+    endpoint = JQUANTS_URI * endpoints[endpointkey]
     resp = HTTP.post(endpoint, retries=2; kwargs...)
     body = JSON.parse(String(resp.body))
 

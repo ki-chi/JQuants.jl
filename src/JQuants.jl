@@ -13,7 +13,7 @@ export authorize, getinfo, getsections, getdailyquotes,
     
 
 
-const JPX_URL = "https://api.jpx-jquants.com/v1"
+const JQUANTS_URI = "https://api.jquants.com/v1"
 
 # Endpoints
 @enum EndPointKey begin
