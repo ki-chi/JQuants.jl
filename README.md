@@ -45,7 +45,7 @@ julia> authorize([YOUR EMAIL ADDRESS], [PASSWORD])
 true
 ```
 
-## Get market data
+## Fetch market data
 
 This package covers [APIs](https://jpx.gitbook.io/j-quants-en/api-reference)
 for downloading data by the J-Quants API.
@@ -53,19 +53,19 @@ for downloading data by the J-Quants API.
 ```julia
 # Run after authorization
 
-julia> get(ListedInfo());  # Get listed issues
+julia> fetch(ListedInfo());  # Fetch listed issues
 
-julia> get(DailyQuotes(date="2022-09-09"));  # Get daily stock prices
+julia> fetch(DailyQuotes(date="2022-09-09"));  # Fetch daily stock prices
 
-julia> get(DailyQuotes(date=Date(2022, 9, 9)));  # Dates.Date type is also OK
+julia> fetch(DailyQuotes(date=Date(2022, 9, 9)));  # Dates.Date type is also OK
 
-julia> get(FinStatements(code="86970"));  # Get financial statements
+julia> fetch(FinStatements(code="86970"));  # Fetch financial statements
 
-julia> get(FinAnnouncement()); # Get announcement of the next-day financial disclosure
+julia> fetch(FinAnnouncement()); # Fetch announcement of the next-day financial disclosure
 
-julia> get(TradesSpec());  # Get investment trend statistics by investor types
+julia> fetch(TradesSpec());  # Fetch investment trend statistics by investor types
 
-julia> get(Topix());  # Get daily 'TOPIX' index data
+julia> fetch(Topix());  # Fetch daily 'TOPIX' index data
 ```
 
 See the [documentation][docs-stable-url] for detailed usage of the functions.
