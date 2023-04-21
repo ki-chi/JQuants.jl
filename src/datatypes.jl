@@ -64,13 +64,6 @@ dataschemes[ListedInfo] = DataScheme(
     ]
 )
 
-dataschemes[ListedSections] = DataScheme(
-    [
-        ColType(:SectorCode, String, String),
-        ColType(:SectorName, String, String)
-    ]
-)
-
 dataschemes[PricesDailyQuotes] = DataScheme(
     [
         ColType(:AdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}),
