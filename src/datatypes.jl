@@ -47,7 +47,7 @@ end
 str2bool(::DataType, x) = x == "true"
 ymd(::DataType, x) = Date(x, "YYYYmmdd")
 
-dataschemes = Dict{EndPointKey,DataScheme}()
+dataschemes = Dict{API,DataScheme}()
 
 dataschemes[ListedInfo] = DataScheme(
     [

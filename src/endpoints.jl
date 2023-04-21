@@ -16,3 +16,21 @@ endpoint(::FinsStatements) = JQUANTS_URI * "/fins/statements";
 endpoint(::FinsDividend) = JQUANTS_URI * "/fins/dividend";
 endpoint(::FinsAnnouncement) = JQUANTS_URI * "/fins/announcement";
 endpoint(::OptionIndexOption) = JQUANTS_URI * "/option/index_option";
+
+
+function jsonkeyname(::Any)
+    error("jsonkeyname not implemented for this type")
+end
+
+jsonkeyname(::ListedInfo) = "info";
+jsonkeyname(::PricesDailyQuotes) = "daily_quotes";
+jsonkeyname(::PricesAM) = "prices_am";
+jsonkeyname(::MarketsTradeSpec) = "trades_spec";
+jsonkeyname(::MarketsWeeklyMarginInterest) = "weekly_margin_interest";
+jsonkeyname(::MarketsShortSelling) = "short_selling";
+jsonkeyname(::MarketsBreakdown) = "breakdown";
+jsonkeyname(::IndicesTopix) = "topix";
+jsonkeyname(::FinsStatements) = "statements";
+jsonkeyname(::FinsDividend) = "dividend";
+jsonkeyname(::FinsAnnouncement) = "announcement";
+jsonkeyname(::OptionIndexOption) = "index_option";

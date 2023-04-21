@@ -70,62 +70,6 @@ function getinfo(;code="", date="", types="original")
     types == "converted" ? convert(dataschemes[ListedInfo], df_info) : df_info
 end
 
-"""
-    getsections()
-
-Return `DataFrame` of the sector informations (in Japanese) defined by Tokyo Stock Exchange.
-
-The details of this API are [here](https://jpx.gitbook.io/j-quants-api-en/api-reference/listed-api#sector-information).
-
-```jldoctest
-julia> getsections()
-34×2 DataFrame
- Row │ SectorCode  SectorName
-     │ String      String
-─────┼──────────────────────────────────
-   1 │ 7150        保険業
-   2 │ 5250        情報・通信業
-   3 │ 7100        証券、商品先物取引業
-   4 │ 3350        ゴム製品
-   5 │ 7050        銀行業
-   6 │ 1050        鉱業
-   7 │ 6050        卸売業
-   8 │ 3150        パルプ・紙
-   9 │ 3650        電気機器
-  10 │ 3800        その他製品
-  11 │ 6100        小売業
-  12 │ 9050        サービス業
-  13 │ 5100        海運業
-  14 │ 3600        機械
-  15 │ 5150        空運業
-  16 │ 3700        輸送用機器
-  17 │ 3500        非鉄金属
-  18 │ 5200        倉庫・運輸関連業
-  19 │ 3550        金属製品
-  20 │ 2050        建設業
-  21 │ 8050        不動産業
-  22 │ 3450        鉄鋼
-  23 │ 3300        石油・石炭製品
-  24 │ 3400        ガラス・土石製品
-  25 │ 3050        食料品
-  26 │ 5050        陸運業
-  27 │ 3750        精密機器
-  28 │ 3250        医薬品
-  29 │ 7200        その他金融業
-  30 │ 3100        繊維製品
-  31 │ 4050        電気・ガス業
-  32 │ 9999        (その他)
-  33 │ 3200        化学
-  34 │ 0050        水産・農林業
-```
-"""
-function getsections(; types="original")
-    @assert types in ["original", "converted"]
-    listed_sections = get(ListedSections)["sections"]
-    df = vcat(DataFrame.(listed_sections)...)
-
-    types == "converted" ? convert(dataschemes[ListedSections], df) : df
-end
 
 """
     getdailyquotes(; code::AbstractString = "",
