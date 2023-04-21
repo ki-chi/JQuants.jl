@@ -20,7 +20,6 @@ const JQUANTS_URI = "https://api.jquants.com/v1"
     TokenAuthUser
     TokenAuthRefresh
     ListedInfo
-    ListedSections
     PricesDailyQuotes
     PricesAM
     MarketsTradeSpec
@@ -38,7 +37,6 @@ const endpoints = Base.ImmutableDict(
     TokenAuthUser => "/token/auth_user",
     TokenAuthRefresh => "/token/auth_refresh",
     ListedInfo => "/listed/info",
-    ListedSections => "/listed/sections",
     PricesDailyQuotes => "/prices/daily_quotes",
     PricesAM => "/prices/prices_am",
     MarketsTradeSpec => "/markets/trades_spec",
