@@ -32,22 +32,25 @@ function Base.convert(::Type{QueryParams}, apistruct::API)
 end
 
 """
-    fetch(params::API, kwargs...)
+    fetch(api::API, kwargs...)
 
 Fetch data from JQuants API.
 
+# Arguments
+- `api::API`: API struct to fetch data from
+- `json::Bool`: If true, return the raw JSON string. If false, return a DataFrame.
+
 """
-function Base.fetch(params::API, kwargs...)
-    query = convert(QueryParams, params)
-    keyname = jsonkeyname(params)
-    results = if isempty(query)
-        get(typeof(params))[keyname]
-    else
-        get(typeof(params); query=query)[keyname]
-    end
+function Base.fetch(api::API, json=false)
+    query = convert(QueryParams, api)  # Convert from struct to vector of pairs for use in HTTP requests
+    keyname = jsonkeyname(api)
+    resp = isempty(query) ? get(typeof(api)) : get(typeof(api); query=query)
 
-    df_info = vcat(DataFrame.(results)...)
+    # Return raw JSON string if json=true
+    json && return resp
 
-    return df_info
+    result = JSON.parse(resp)  # Convert from JSON string to Dict
+    df_raw = vcat(DataFrame.(result[keyname])...)  # Convert from Dict to DataFrame
+    df = convert(datascheme(api), df_raw)  # Convert from DataFrame to DataFrame with correct column types
+    return df
 end
-

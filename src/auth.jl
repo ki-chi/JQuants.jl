@@ -7,12 +7,14 @@ check_id_token() = ID_TOKEN[]
 
 function update_ref_token(emailaddress, password)
     body = JSON.json(Dict("mailaddress"=>emailaddress, "password"=>password))
-    resp = post(JQuants.TokenAuthUser, body=body)
+    resp = JSON.parse(post(JQuants.TokenAuthUser, body=body))
     REFRESH_TOKEN[] = resp["refreshToken"]
 end
 
 function update_id_token()
-    resp = post(JQuants.TokenAuthRefresh, query=["refreshtoken"=>REFRESH_TOKEN[]])
+    resp = JSON.parse(
+        post(JQuants.TokenAuthRefresh, query=["refreshtoken"=>REFRESH_TOKEN[]])
+    )
     ID_TOKEN[] = resp["idToken"]
 end
 
