@@ -91,7 +91,7 @@ end
 
 function datascheme(::ListedInfo)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:CompanyName, String, String),
         ColType(:Sector17Code, String, String),
@@ -106,7 +106,7 @@ end
 
 function datascheme(::PricesDailyQuotes)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:Open, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:High, Union{Nothing,Float64}, Union{Float64,Missing}),
@@ -149,7 +149,7 @@ end
 
 function datascheme(::PricesAM)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:MorningOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:MorningHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
@@ -236,7 +236,7 @@ end
 
 function dataschemes(::MarketsWeeklyMarginInterest)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:ShortMarginTradeVolume, Float64, Float64),
         ColType(:LongMarginTradeVolume, Float64, Float64),
@@ -250,7 +250,7 @@ end
 
 function dataschemes(::MarketsShortSelling)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Sector33Code, String, String),
         ColType(:SellingExcludingShortSellingTurnoverValue, Float64, Float64),
         ColType(:ShortSellingWithRestrictionsTurnoverValue, Float64, Float64),
@@ -261,7 +261,7 @@ end
 
 function dataschemes(::MarketsBreakdown)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:LongSellValue, Float64, Float64),
         ColType(:ShortSellWithoutMarginValue, Float64, Float64),
@@ -282,7 +282,7 @@ end
 
 function dataschemes(::IndicesTopix)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Open, Float64, Float64),
         ColType(:Close, Float64, Float64),
         ColType(:Low, Float64, Float64),
@@ -408,36 +408,36 @@ end
 
 function dataschems(::FinsDividend)
     DataScheme([
-        ColType(:AnnouncementDate, String, Date, ymd),
+        ColType(:AnnouncementDate, String, Date),
         ColType(:AnnouncementTime, String, Time),
         ColType(:Code, String, String),
         ColType(:ReferenceNumber, String, String),
         ColType(:StatusCode, String, String),
-        ColType(:BoardMeetingDate, String, Date, ymd),
+        ColType(:BoardMeetingDate, String, Date),
         ColType(:InterimFinalCode, String, String),
         ColType(:ForecastResultCode, String, String),
         ColType(:InterimFinalTerm, String, String),
-        ColType(:GrossDividendRate, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:RecordDate, String, Date, ymd),
-        ColType(:ExDate, String, Date, ymd),
-        ColType(:ActulalRecordDate, String, Date, ymd),
-        ColType(:PayableDate, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
+        ColType(:GrossDividendRate, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:RecordDate, String, Date),
+        ColType(:ExDate, String, Date),
+        ColType(:ActulalRecordDate, String, Date),
+        ColType(:PayableDate, String, String),  # "-" if undeterminded, "" if not applicable
         ColType(:CAReferenceNumber, String, String),
-        ColType(:DistributionAmount, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:RetainedEarnings, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:DeemedDividend, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:DeemedCapitalGains, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:NetAssetDecreaseRatio, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
+        ColType(:DistributionAmount, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:RetainedEarnings, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:DeemedDividend, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:DeemedCapitalGains, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:NetAssetDecreaseRatio, String, String),  # "-" if undeterminded, "" if not applicable
         ColType(:CommemorativeSpecialCode, String, String),
-        ColType(:CommemorativeDividendRate, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
-        ColType(:SpecialDividentRate, String, String),  # 未定の場合:  - 、非設定の場合: 空文字
+        ColType(:CommemorativeDividendRate, String, String),  # "-" if undeterminded, "" if not applicable
+        ColType(:SpecialDividentRate, String, String),  # "-" if undeterminded, "" if not applicable
     ])
 end
 
 function dataschemes(::FinsAnnouncement)
     DataScheme([
         ColType(:Code, String, String),
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:CompanyName, String, String),
         ColType(:FiscalYear, String, String),
         ColType(:SectorName, String, String),
@@ -448,7 +448,7 @@ end
 
 function dataschemes(::OptionIndexOption)
     DataScheme([
-        ColType(:Date, String, Date, ymd),
+        ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:WholeDayOpen, Float64, Float64),
         ColType(:WholeDayHigh, Float64, Float64),
@@ -470,8 +470,8 @@ function dataschemes(::OptionIndexOption)
         ColType(Symbol("Volume(OnlyAuction)"), Float64, Float64),
         ColType(:EmergencyMarginTriggerDivision, String, String),
         ColType(:PutCallDivision, String, String),
-        ColType(:LastTradingDay, String, Date, ymd),
-        ColType(:SpecialQuotationDay, String, Date, ymd),
+        ColType(:LastTradingDay, String, Date),
+        ColType(:SpecialQuotationDay, String, Date),
         ColType(:SettlementPrice, Float64, Float64),
         ColType(:BaseVolatility, Float64, Float64),
         ColType(:UnderlyingPrice, Float64, Float64),
