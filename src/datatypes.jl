@@ -43,6 +43,8 @@ Convert the DataFrame's columns to the target types defined in `scheme`.
 function Base.convert(scheme::DataScheme, df)
     df_conv = copy(df)
     for coltype in scheme
+        string(coltype.name) ∈ names(df_conv) || continue  # Skip if the column is not in the DataFrame
+
         if coltype.original != coltype.target
 
             # Convert Nothing to Missing
