@@ -4,22 +4,22 @@ GitHub repo: [https://github.com/ki-chi/JQuants.jl](https://github.com/ki-chi/JQ
 
 ## Overview
 
-A Julia package for using the [J-Quants API](https://application.jpx-jquants.com/) that provide Japanese listed issues' price and financial information.
+A Julia package for using the [J-Quants API](https://jpx-jquants.com/?lang=en) that provide Japanese listed issues' price and financial information.
 
-You have to [register](https://application.jpx-jquants.com/register) to use the J-Quants API.
+You have to [register](https://jpx-jquants.com/auth/signup/?lang=en) to use the J-Quants API.
 
 ## Installation
 
 In the Julia REPL:
 
 ```
-] add https://github.com/ki-chi/JQuants.jl.git
+] JQuants
 ```
 
 or
 
 ```
-julia> using Pkg; Pkg.add(url="https://github.com/ki-chi/JQuants.jl.git")
+julia> using Pkg; Pkg.add("JQuants")
 ```
 
 ## Example
@@ -27,10 +27,11 @@ julia> using Pkg; Pkg.add(url="https://github.com/ki-chi/JQuants.jl.git")
 ```jldoctest
 julia> using JQuants
 
-julia> authorize([YOUR EMAIL ADDRESS], [PASSWORD])
+julia> authorize([YOUR REFRESH TOKEN])
 true
 
-julia> dailyquotes = getdailyquotes(date="2022-09-09");  # Get daily stock prices
+julia> fetch(FinsStatements(code="86970"));  # Fetch financial statements
+
 ```
 
 ## API Wrappers
