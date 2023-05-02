@@ -24,7 +24,7 @@ function Base.convert(::Type{QueryParams}, apistruct::API)
     pairs = []
     for field in fieldnames(typeof(apistruct))
         val = getfield(apistruct, field)
-        if !isnothing(val) || val != ""
+        if !(isnothing(val) || val == "")
             push!(pairs, string(field) => val)
         end
     end
@@ -44,7 +44,8 @@ Fetch data from JQuants API.
 function Base.fetch(api::API, json=false)
     query = convert(QueryParams, api)  # Convert from struct to vector of pairs for use in HTTP requests
     keyname = jsonkeyname(api)
-    resp = isempty(query) ? get(typeof(api)) : get(typeof(api); query=query)
+    is_empty_query = isempty(query) || all(p -> isempty(p.second), query)
+    resp = is_empty_query ? get(api) : get(api; query=query)
 
     # Return raw JSON string if json=true
     json && return resp
