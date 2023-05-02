@@ -162,7 +162,7 @@ function datascheme(::PricesAM)
     ])
 end
 
-function dataschemes(::MarketsTradeSpec)
+function datascheme(::MarketsTradeSpec)
     DataScheme([
         ColType(:PublishedDate, String, Date),
         ColType(:StartDate, String, Date),
@@ -236,7 +236,7 @@ function dataschemes(::MarketsTradeSpec)
     ])
 end
 
-function dataschemes(::MarketsWeeklyMarginInterest)
+function datascheme(::MarketsWeeklyMarginInterest)
     DataScheme([
         ColType(:Date, String, Date),
         ColType(:Code, String, String),
@@ -250,7 +250,7 @@ function dataschemes(::MarketsWeeklyMarginInterest)
     ])
 end
 
-function dataschemes(::MarketsShortSelling)
+function datascheme(::MarketsShortSelling)
     DataScheme([
         ColType(:Date, String, Date),
         ColType(:Sector33Code, String, String),
@@ -261,7 +261,7 @@ function dataschemes(::MarketsShortSelling)
 end
 
 
-function dataschemes(::MarketsBreakdown)
+function datascheme(::MarketsBreakdown)
     DataScheme([
         ColType(:Date, String, Date),
         ColType(:Code, String, String),
@@ -282,7 +282,7 @@ function dataschemes(::MarketsBreakdown)
     ])
 end
 
-function dataschemes(::IndicesTopix)
+function datascheme(::IndicesTopix)
     DataScheme([
         ColType(:Date, String, Date),
         ColType(:Open, Float64, Float64),
@@ -408,7 +408,7 @@ function datascheme(::FinsStatements)
     ])
 end
 
-function dataschems(::FinsDividend)
+function datascheme(::FinsDividend)
     DataScheme([
         ColType(:AnnouncementDate, String, Date),
         ColType(:AnnouncementTime, String, Time),
@@ -436,7 +436,7 @@ function dataschems(::FinsDividend)
     ])
 end
 
-function dataschemes(::FinsAnnouncement)
+function datascheme(::FinsAnnouncement)
     DataScheme([
         ColType(:Code, String, String),
         ColType(:Date, String, Date),
@@ -448,7 +448,7 @@ function dataschemes(::FinsAnnouncement)
     ])
 end
 
-function dataschemes(::OptionIndexOption)
+function datascheme(::OptionIndexOption)
     DataScheme([
         ColType(:Date, String, Date),
         ColType(:Code, String, String),
