@@ -21,3 +21,17 @@ function Base.showerror(io::IO, ::JQuantsInvalidTokenError)
 
     print(io, message, " not defined")
 end
+
+"""
+    JQuantsInvalidParameterError()
+
+The parameter is invalid.
+"""
+struct JQuantsInvalidParameterError <: JQuantsError
+    params::Dict{String, Any}
+end
+
+function Base.showerror(io::IO, e::JQuantsInvalidParameterError)
+    params = replace(replace(string(e.params), "Dict" => ""), r"\{.*,.*\}" => "")
+    print(io, "JQuantsInvalidParameterError: ", params, " are invalid parameter(s)")
+end
