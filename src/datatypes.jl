@@ -42,6 +42,8 @@ Convert the DataFrame's columns to the target types defined in `scheme`.
 """
 function Base.convert(scheme::DataScheme, df)
     df_conv = copy(df)
+    isempty(df) && return df_conv  # Return empty DataFrame if the input DataFrame is empty
+
     for coltype in scheme
         string(coltype.name) ∈ names(df_conv) || continue  # Skip if the column is not in the DataFrame
 
