@@ -55,17 +55,13 @@ for downloading data by the J-Quants API.
 
 julia> fetch(ListedInfo());  # Fetch listed issues
 
-julia> fetch(DailyQuotes(date="2022-09-09"));  # Fetch daily stock prices
+julia> fetch(PricesDailyQuotes(date="2022-09-09"));  # Fetch daily stock prices
 
-julia> fetch(DailyQuotes(date=Date(2022, 9, 9)));  # Dates.Date type is also OK
+julia> fetch(PricesDailyQuotes(date=Date(2022, 9, 9)));  # Dates.Date type is also OK
 
-julia> fetch(FinStatements(code="86970"));  # Fetch financial statements
+julia> fetch(FinsStatements(code="86970"));  # Fetch financial statements
 
-julia> fetch(FinAnnouncement()); # Fetch announcement of the next-day financial disclosure
-
-julia> fetch(TradesSpec());  # Fetch investment trend statistics by investor types
-
-julia> fetch(Topix());  # Fetch daily 'TOPIX' index data
+julia> fetch(FinsAnnouncement()); # Fetch the announcement dates of financial results
 ```
 
 See the [documentation][docs-stable-url] for detailed usage of the functions.
