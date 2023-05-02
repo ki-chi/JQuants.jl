@@ -3,7 +3,6 @@ abstract type API end;
 struct TokenAuthUser <: API end;
 struct TokenAuthRefresh <: API end;
 
-
 struct ListedInfo <: API
     code::AbstractString
     date::AbstractString
@@ -45,8 +44,8 @@ function PricesDailyQuotes(;code="", from="", to="", date="")
             PricesDailyQuotes(code, from_str, to_str, "")
         end
     else
-        @show code, from, to, date
-        error("Unsupported combination.")
+        throw(JQuantsInvalidParameterError(
+            Dict("code" => code, "from" => from, "to" => to, "date" => date)))
     end
 end
 
@@ -177,9 +176,35 @@ struct FinsDividend <: API
     to::AbstractString
 end;
 
+function FinsDividend(;code="", date="", from="", to="")
+    from_str = date2str(from)
+    to_str = date2str(to)
+    date_str = date2str(date)
+
+    if isempty(code) && !isempty(date_str)
+        FinsDividend("", "", "", date_str)
+    elseif !isempty(code)
+        if isempty(from_str) || isempty(to_str)
+            FinsDividend(code, "", "", "")
+        else
+            FinsDividend(code, from_str, to_str, "")
+        end
+    else
+        throw(JQuantsInvalidParameterError(
+            Dict("code" => code, "from" => from, "to" => to, "date" => date)))
+    end
+end
+
 struct FinsAnnouncement <: API end;
 
 struct OptionIndexOption <: API
     date::AbstractString
 end;
 
+function OptionIndexOption(;date="")
+    if !isempty(date)
+        OptionIndexOption(date2str(date))
+    else
+        throw(JQuantsInvalidParameterError(Dict("date" => date)))
+    end
+end
