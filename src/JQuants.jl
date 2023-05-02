@@ -35,11 +35,10 @@ include("http.jl")
 # Authorization
 include("auth.jl")
 
-# Data types
+# Data types for the type conversion
 include("datatypes.jl")
 
-# For market data API
-include("get_data.jl")
+# Fetch market data
 include("fetch.jl")
 
 # Utility functions

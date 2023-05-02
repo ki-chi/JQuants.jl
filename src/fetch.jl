@@ -40,8 +40,17 @@ Fetch data from JQuants API.
 - `api::API`: API struct to fetch data from
 - `json::Bool`: If true, return the raw JSON string. If false, return a DataFrame. Default is false.
 
+
+# Examples
+```julia
+julia> fetch(ListedInfo(code="72030"));
+
+julia> fetch(ListedInfo(code="72030"), json=true);
+```
+
+
 """
-function Base.fetch(api::API, json=false)
+function Base.fetch(api::API; json=false)
     query = convert(QueryParams, api)  # Convert from struct to vector of pairs for use in HTTP requests
     keyname = jsonkeyname(api)
     is_empty_query = isempty(query) || all(p -> isempty(p.second), query)
