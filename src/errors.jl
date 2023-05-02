@@ -7,7 +7,7 @@ The refresh token or the id token are not defined.
 """
 struct JQuantsInvalidTokenError <: JQuantsError end
 
-function Base.showerror(io::IO, e::JQuantsInvalidTokenError)
+function Base.showerror(io::IO, ::JQuantsInvalidTokenError)
     
     if !isdefined(REFRESH_TOKEN, 1) && !isdefined(ID_TOKEN, 1)
         message = "both the refresh token and the id token are"
