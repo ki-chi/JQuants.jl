@@ -7,41 +7,27 @@ using JSON
 using DataFrames
 using Reexport
 
-export authorize, getinfo, getsections, getdailyquotes,
-    getfinstatements, getfinannouncement, gettradesspecs,
-    gettopix
-    
+# Authorization function
+export authorize
 
+# APIs
+export fetch
+export TokenAuthUser, TokenAuthRefresh, ListedInfo,
+    PricesDailyQuotes, PricesAM, MarketsTradeSpec,
+    MarketsWeeklyMarginInterest, MarketsShortSelling,
+    MarketsBreakdown, IndicesTopix, FinsStatements,
+    FinsDividend, FinsAnnouncement, OptionIndexOption
 
-const JPX_URL = "https://api.jpx-jquants.com/v1"
-
-# Endpoints
-@enum EndPointKey begin
-    TokenAuthUser
-    TokenAuthRefresh
-    ListedInfo
-    ListedSections
-    PricesDailyQuotes
-    FinsStatements
-    FinsAnnouncement
-    MarketsTradeSpec
-    IndicesTopix
-end
-
-const endpoints = Base.ImmutableDict(
-    TokenAuthUser => "/token/auth_user",
-    TokenAuthRefresh => "/token/auth_refresh",
-    ListedInfo => "/listed/info",
-    ListedSections => "/listed/sections",
-    PricesDailyQuotes => "/prices/daily_quotes",
-    FinsStatements => "/fins/statements",
-    FinsAnnouncement => "/fins/announcement",
-    MarketsTradeSpec => "/markets/trades_spec",
-    IndicesTopix => "/indices/topix"
-)
+const JQUANTS_URI = "https://api.jquants.com/v1"
 
 # Errors
 include("errors.jl")
+
+# API specification
+include("specs.jl")
+
+# endpoints
+include("endpoints.jl")
 
 # Get & Post functions
 include("http.jl")
@@ -49,8 +35,11 @@ include("http.jl")
 # Authorization
 include("auth.jl")
 
-# For market data API
-include("get_data.jl")
+# Data types for the type conversion
+include("datatypes.jl")
+
+# Fetch market data
+include("fetch.jl")
 
 # Utility functions
 include("utils.jl")

@@ -3,11 +3,10 @@
 [![CI](https://github.com/ki-chi/JQuants.jl/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ki-chi/JQuants.jl/actions/workflows/ci.yml)
 [![][docs-stable-img]][docs-stable-url] [![][docs-dev-img]][docs-dev-url]
 
-[The J-Quants API](https://application.jpx-jquants.com/) wrapper for Julia. 
+[The J-Quants API](https://jpx-jquants.com/?lang=en) wrapper for Julia. 
 
 The J-Quants API is an distribution service that delivers historical stock prices and financial statements data through API,
 provided by JPX Market Innovation & Research, Inc.
-The API service is provided as a beta version, and the API specifications are subject to change in the future. 
 
 This client package helps you easily use the API from Julia. 
 
@@ -29,9 +28,8 @@ julia> using Pkg; Pkg.add("JQuants")
 
 ## Authorization
 
-You have to [register](https://application.jpx-jquants.com/register) to use the J-Quants API.
-If you choose to authorize by using "Refresh token", you should get the token from [the portal of J-Quants API](https://application.jpx-jquants.com/).
-You can also authorize using the email address and password registered for the J-Quants API.
+You have to [register](https://jpx-jquants.com/auth/signup/?lang=en) to use the J-Quants API.
+You may also grant authentication credentials through employment of a "Refresh token," or alternatively, by employing the email address and password that was previously registered for the J-Quants API.
 
 ```julia
 julia> using JQuants
@@ -47,29 +45,27 @@ julia> authorize([YOUR EMAIL ADDRESS], [PASSWORD])
 true
 ```
 
-## Get market data
+## Fetch market data
 
-This package covers [all APIs](https://jpx.gitbook.io/j-quants-api-en/api-reference)
+This package covers [APIs](https://jpx.gitbook.io/j-quants-en/api-reference)
 for downloading data by the J-Quants API.
 
 ```julia
 # Run after authorization
 
-julia> getinfo();  # Get listed issues
+julia> fetch(ListedInfo());  # Fetch listed issues
 
-julia> getsections();  # Get definitions of sector codes (in Japanese)
+julia> fetch(DailyQuotes(date="2022-09-09"));  # Fetch daily stock prices
 
-julia> getdailyquotes(date="2022-09-09");  # Get daily stock prices
+julia> fetch(DailyQuotes(date=Date(2022, 9, 9)));  # Dates.Date type is also OK
 
-julia> getdailyquotes(date=Date(2022, 9, 9));  # Dates.Date type is also OK
+julia> fetch(FinStatements(code="86970"));  # Fetch financial statements
 
-julia> getfinstatements(code="86970");  # Get financial statements
+julia> fetch(FinAnnouncement()); # Fetch announcement of the next-day financial disclosure
 
-julia> getfinannouncement(); # Get announcement of the next-day financial disclosure
+julia> fetch(TradesSpec());  # Fetch investment trend statistics by investor types
 
-julia> gettradesspecs();  # Get investment trend statistics by investor types
-
-julia> gettopix();  # Get daily 'TOPIX' index data
+julia> fetch(Topix());  # Fetch daily 'TOPIX' index data
 ```
 
 See the [documentation][docs-stable-url] for detailed usage of the functions.
@@ -83,8 +79,8 @@ See the [documentation][docs-stable-url] for detailed usage of the functions.
 
 # Reference
 
-- [J-Quants API](https://application.jpx-jquants.com/)
-- [J-Quants API Reference](https://jpx.gitbook.io/j-quants-api-en/api-reference)
+- [J-Quants API](https://jpx-jquants.com/?lang=en)
+- [J-Quants API Reference](https://jpx.gitbook.io/j-quants-en/api-reference)
 
 
 # Acknowledgments
