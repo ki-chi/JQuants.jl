@@ -38,7 +38,7 @@ Fetch data from JQuants API.
 
 # Arguments
 - `api::API`: API struct to fetch data from
-- `json::Bool`: If true, return the raw JSON string. If false, return a DataFrame.
+- `json::Bool`: If true, return the raw JSON string. If false, return a DataFrame. Default is false.
 
 """
 function Base.fetch(api::API, json=false)
