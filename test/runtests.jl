@@ -73,6 +73,10 @@ end
     @test length(names(statements)) == 106
 end
 
+@testset "Pagination" begin
+    @test_nowarn statements = fetch(FinsStatements(date="2022-05-13"))  # A lot of disclosures on this day
+end
+
 @testset "Financial announcement" begin
     ann = fetch(FinsAnnouncement())
 
