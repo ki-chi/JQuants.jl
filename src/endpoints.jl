@@ -11,11 +11,13 @@ endpoint(::MarketsTradeSpec) = JQUANTS_URI * "/markets/trades_spec";
 endpoint(::MarketsWeeklyMarginInterest) = JQUANTS_URI * "/markets/weekly_margin_interest";
 endpoint(::MarketsShortSelling) = JQUANTS_URI * "/markets/short_selling";
 endpoint(::MarketsBreakdown) = JQUANTS_URI * "/markets/breakdown";
+endpoint(::TradingCalendar) = JQUANTS_URI * "/markets/trading_calendar";
 endpoint(::IndicesTopix) = JQUANTS_URI * "/indices/topix";
 endpoint(::FinsStatements) = JQUANTS_URI * "/fins/statements";
 endpoint(::FinsDividend) = JQUANTS_URI * "/fins/dividend";
 endpoint(::FinsAnnouncement) = JQUANTS_URI * "/fins/announcement";
 endpoint(::OptionIndexOption) = JQUANTS_URI * "/option/index_option";
+
 
 
 function jsonkeyname(::Any)
@@ -29,6 +31,7 @@ jsonkeyname(::MarketsTradeSpec) = "trades_spec";
 jsonkeyname(::MarketsWeeklyMarginInterest) = "weekly_margin_interest";
 jsonkeyname(::MarketsShortSelling) = "short_selling";
 jsonkeyname(::MarketsBreakdown) = "breakdown";
+jsonkeyname(::TradingCalendar) = "trading_calendar";
 jsonkeyname(::IndicesTopix) = "topix";
 jsonkeyname(::FinsStatements) = "statements";
 jsonkeyname(::FinsDividend) = "dividend";

@@ -284,6 +284,13 @@ function datascheme(::MarketsBreakdown)
     ])
 end
 
+function datascheme(::TradingCalendar)
+    DataScheme([
+        ColType(:Date, String, Date),
+        ColType(:HolydayDivision, String, String),
+    ])
+end
+
 function datascheme(::IndicesTopix)
     DataScheme([
         ColType(:Date, String, Date),
