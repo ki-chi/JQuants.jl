@@ -45,7 +45,8 @@ end
     expected_colnames = [
         "AdjustmentClose", "AdjustmentFactor",
         "AdjustmentHigh", "AdjustmentLow", "AdjustmentOpen", "AdjustmentVolume",
-        "Close", "Code", "Date", "High", "Low", "Open", "TurnoverValue", "Volume"
+        "Close", "Code", "Date", "High", "Low", "Open", "TurnoverValue", "Volume",
+        "LowerLimit", "UpperLimit"
     ]
     expected_coltypes = [
         Union{Missing, Float64}, Float64,
@@ -55,7 +56,7 @@ end
         Union{Missing, Float64}, Union{Missing, Float64}
     ]
 
-    @test sort(names(daily_quotes)) == expected_colnames
+    @test sort(names(daily_quotes)) == sort(expected_colnames)
 
     for (colname, coltype) in zip(expected_colnames, expected_coltypes)
         @test eltype(daily_quotes[!, colname]) == coltype 
@@ -91,4 +92,17 @@ end
     ]
 
     @test sort(names(ann)) == sort(expected_colnames)
+end
+
+@testset "Trading Calendar" begin
+    calendar = fetch(TradingCalendar(
+        holidaydivision="1",
+        from="2023-01-01", to="2023-01-31"))
+
+    expected_colnames = [
+        "Date",
+        "HolidayDivision",
+    ]
+
+    @test sort(names(calendar)) == sort(expected_colnames)
 end
