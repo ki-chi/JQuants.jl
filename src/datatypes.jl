@@ -98,6 +98,7 @@ function datascheme(::ListedInfo)
         ColType(:Date, String, Date),
         ColType(:Code, String, String),
         ColType(:CompanyName, String, String),
+        ColType(:CompanyNameEnglish, String, String),
         ColType(:Sector17Code, String, String),
         ColType(:Sector17CodeName, String, String),
         ColType(:Sector33Code, String, String),
@@ -105,6 +106,8 @@ function datascheme(::ListedInfo)
         ColType(:ScaleCategory, String, String),
         ColType(:MarketCode, String, String),
         ColType(:MarketCodeName, String, String),
+        ColType(:MarginCode, String, String),
+        ColType(:MarginCodeName, String, String),
     ])
 end
 
