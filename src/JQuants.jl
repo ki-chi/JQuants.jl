@@ -17,7 +17,7 @@ export TokenAuthUser, TokenAuthRefresh, ListedInfo,
     MarketsWeeklyMarginInterest, MarketsShortSelling,
     MarketsBreakdown, IndicesTopix, FinsStatements,
     FinsDividend, FinsAnnouncement, OptionIndexOption,
-    TradingCalendar
+    TradingCalendar, FinsDetails
 
 const JQUANTS_URI = "https://api.jquants.com/v1"
 

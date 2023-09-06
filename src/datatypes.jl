@@ -426,6 +426,17 @@ function datascheme(::FinsStatements)
     ])
 end
 
+function datascheme(::FinsDetails)
+    DataScheme([
+        ColType(:DisclosedDate, String, Date),
+        ColType(:DisclosedTime, String, Time),
+        ColType(:LocalCode, String, String),
+        ColType(:DisclosureNumber, String, Int64),
+        ColType(:TypeOfDocument, String, String),
+        ColType(:FinancialStatement, Any, Any),
+    ])
+end
+
 function datascheme(::FinsDividend)
     DataScheme([
         ColType(:AnnouncementDate, String, Date),

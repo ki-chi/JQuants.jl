@@ -16,6 +16,7 @@ endpoint(::IndicesTopix) = JQUANTS_URI * "/indices/topix";
 endpoint(::FinsStatements) = JQUANTS_URI * "/fins/statements";
 endpoint(::FinsDividend) = JQUANTS_URI * "/fins/dividend";
 endpoint(::FinsAnnouncement) = JQUANTS_URI * "/fins/announcement";
+endpoint(::FinsDetails) = JQUANTS_URI * "/fins/fs_details";
 endpoint(::OptionIndexOption) = JQUANTS_URI * "/option/index_option";
 
 
@@ -36,4 +37,5 @@ jsonkeyname(::IndicesTopix) = "topix";
 jsonkeyname(::FinsStatements) = "statements";
 jsonkeyname(::FinsDividend) = "dividend";
 jsonkeyname(::FinsAnnouncement) = "announcement";
+jsonkeyname(::FinsDetails) = "fs_details";
 jsonkeyname(::OptionIndexOption) = "index_option";
