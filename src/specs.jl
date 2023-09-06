@@ -253,3 +253,30 @@ function TradingCalendar(;holidaydivision="", from="", to="")
         error("Unsupported combination.")
     end
 end
+
+
+"""
+    FinsDetails(;code="", date="")
+
+[Financial Statements Details API](https://jpx.gitbook.io/j-quants-ja/api-reference/statements-1)
+
+## Parameters
+- `code::AbstractString`: Stock code. (e.g. "8697")
+- `date::AbstractString`: Date. (e.g. "2018-01-01")
+
+## Examples
+```julia
+julia> using JQuants
+
+julia> fetch(FinsDetails(code="8697", date="2018-01-01"))
+```
+"""
+struct FinsDetails <: API
+    code::AbstractString
+    date::AbstractString
+end;
+
+function FinsDetails(; code="", date="")
+    isempty(code) && isempty(date) && error("One of \"code\" or \"date\" must be specified.")
+    FinsDetails(code, date2str(date))
+end
