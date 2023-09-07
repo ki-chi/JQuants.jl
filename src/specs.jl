@@ -8,18 +8,9 @@ struct ListedInfo <: API
     date::AbstractString
 end;
 
-function ListedInfo(;code="", date="")
+function ListedInfo(; code="", date="")
     date_str = date2str(date)
-
-    if isempty(code) && isempty(date_str)
-        ListedInfo("", "")
-    elseif isempty(code)
-        ListedInfo("", date_str)
-    elseif isempty(date_str)
-        ListedInfo(code, "")
-    else
-        ListedInfo(code, date_str)
-    end
+    return ListedInfo(code, date_str)
 end
 
 
@@ -57,7 +48,7 @@ function PricesAM(;code="")
     if isempty(code)
         PricesAM("")
     else
-        PricesAM(code)
+        
     end
 end
 
