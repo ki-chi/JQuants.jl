@@ -15,7 +15,7 @@ export fetch
 export TokenAuthUser, TokenAuthRefresh, ListedInfo,
     PricesDailyQuotes, PricesAM, MarketsTradeSpec,
     MarketsWeeklyMarginInterest, MarketsShortSelling,
-    MarketsBreakdown, IndicesTopix, FinsStatements,
+    MarketsBreakdown, Indices, IndicesTopix, FinsStatements,
     FinsDividend, FinsAnnouncement, OptionIndexOption,
     TradingCalendar, FinsDetails
 

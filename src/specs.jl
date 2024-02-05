@@ -121,6 +121,32 @@ struct MarketsBreakdown <: API
     to::AbstractString
 end;
 
+struct Indices <: API
+    code::AbstractString
+    date::AbstractString
+    from::AbstractString
+    to::AbstractString
+end;
+
+function Indices(;code="", date="",  from="", to="")
+    from_str = date2str(from)
+    to_str = date2str(to)
+    date_str = date2str(date)
+
+    if isempty(code) && !isempty(date_str)
+        Indices("", "", "", date_str)
+    elseif !isempty(code)
+        if isempty(from_str) || isempty(to_str)
+            Indices(code, "", "", "")
+        else
+            Indices(code, from_str, to_str, "")
+        end
+    else
+        throw(JQuantsInvalidParameterError(
+            Dict("code" => code, "from" => from, "to" => to, "date" => date)))
+    end
+end
+
 struct IndicesTopix <: API
     from::AbstractString
     to::AbstractString
