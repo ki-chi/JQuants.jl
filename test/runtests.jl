@@ -25,8 +25,8 @@ end
 end
 
 # Get the latest date from the trading calendar
-test_date = fetch(TradingCalendar(holidaydivision="1")) |> last |> row -> row[:Date]
-test_holiday = fetch(TradingCalendar(holidaydivision="0")) |> last |> row -> row[:Date]
+test_date = fetch(TradingCalendar(holidaydivision="1")) |> (df -> subset(df, :Date => x -> x .< today())) |> last |> row -> row[:Date]
+test_holiday = fetch(TradingCalendar(holidaydivision="0")) |> (df -> subset(df, :Date => x -> x .< today())) |> last |> row -> row[:Date]
 
 @testset "Listed issues information" begin
     code = "86970"  # JPX
