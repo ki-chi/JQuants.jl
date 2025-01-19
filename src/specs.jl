@@ -19,9 +19,9 @@ function ListedInfo(; code="", date="")
     return ListedInfo(code, date_str)
 end
 
-# 一部のデータはプレミアムプラン以上でしか取得できないが、
-# それらのデータについてはdataschemeで定義する.
-# FreeプランでもAPI自体は呼び出せるため、FreePlanAPIを継承している.
+# Some data columns in PricesDailyQuotes are only obtained with a Lite plan or higher,
+# but for those data, they are defined in datascheme.
+# The API itself can be called even with the Free plan, so it inherits FreePlanAPI.
 struct PricesDailyQuotes <: FreePlanAPI
     code::AbstractString
     from::AbstractString
