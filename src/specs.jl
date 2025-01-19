@@ -1,9 +1,15 @@
 abstract type API end;
 
+# Define the types of API by pricing plan
+abstract type PremiumPlanAPI <: API end;
+abstract type StandardPlanAPI <: PremiumPlanAPI end;
+abstract type LitePlanAPI <: StandardPlanAPI end;
+abstract type FreePlanAPI <: LitePlanAPI end;
+
 struct TokenAuthUser <: API end;
 struct TokenAuthRefresh <: API end;
 
-struct ListedInfo <: API
+struct ListedInfo <: LitePlanAPI
     code::AbstractString
     date::AbstractString
 end;
@@ -13,8 +19,10 @@ function ListedInfo(; code="", date="")
     return ListedInfo(code, date_str)
 end
 
-
-struct PricesDailyQuotes <: API
+# 一部のデータはプレミアムプラン以上でしか取得できないが、
+# それらのデータについてはdataschemeで定義する.
+# FreeプランでもAPI自体は呼び出せるため、FreePlanAPIを継承している.
+struct PricesDailyQuotes <: FreePlanAPI
     code::AbstractString
     from::AbstractString
     to::AbstractString
@@ -40,7 +48,7 @@ function PricesDailyQuotes(;code="", from="", to="", date="")
     end
 end
 
-struct PricesAM <: API
+struct PricesAM <: PremiumPlanAPI
     code::AbstractString
 end;
 
@@ -53,7 +61,7 @@ function PricesAM(;code="")
 end
 
 
-struct MarketsTradesSpec <: API
+struct MarketsTradesSpec <: LitePlanAPI
     section::AbstractString
     from::AbstractString
     to::AbstractString
@@ -79,7 +87,7 @@ function MarketsTradesSpec(;section="", from="", to="")
     end
 end
 
-struct MarketsWeeklyMarginInterest <: API
+struct MarketsWeeklyMarginInterest <: StandardPlanAPI
     code::AbstractString
     date::AbstractString
     from::AbstractString
@@ -107,21 +115,21 @@ function MarketsWeeklyMarginInterest(;code="", from="", to="", date="")
 end
 
 
-struct MarketsShortSelling <: API
+struct MarketsShortSelling <: StandardPlanAPI
     sector33code::AbstractString
     date::AbstractString
     from::AbstractString
     to::AbstractString
 end;
 
-struct MarketsBreakdown <: API
+struct MarketsBreakdown <: PremiumPlanAPI
     code::AbstractString
     date::AbstractString
     from::AbstractString
     to::AbstractString
 end;
 
-struct Indices <: API
+struct Indices <: StandardPlanAPI
     code::AbstractString
     date::AbstractString
     from::AbstractString
@@ -147,7 +155,7 @@ function Indices(;code="", date="",  from="", to="")
     end
 end
 
-struct IndicesTopix <: API
+struct IndicesTopix <: LitePlanAPI
     from::AbstractString
     to::AbstractString
 end;
@@ -167,7 +175,7 @@ function IndicesTopix(;from="", to="")
     end
 end
 
-struct FinsStatements <: API
+struct FinsStatements <: FreePlanAPI
     code::AbstractString
     date::AbstractString
 end;
@@ -186,7 +194,7 @@ function FinsStatements(;code="", date="")
     end
 end
 
-struct FinsDividend <: API
+struct FinsDividend <: PremiumPlanAPI
     code::AbstractString
     date::AbstractString
     from::AbstractString
@@ -212,9 +220,9 @@ function FinsDividend(;code="", date="", from="", to="")
     end
 end
 
-struct FinsAnnouncement <: API end;
+struct FinsAnnouncement <: FreePlanAPI end;
 
-struct OptionIndexOption <: API
+struct OptionIndexOption <: PremiumPlanAPI
     date::AbstractString
 end;
 
@@ -245,7 +253,7 @@ julia> using JQuants
 julia> fetch(TradingCalendar(holidaydivision="1", from="2018-01-01", to="2018-01-31"))
 ```
 """
-struct TradingCalendar <: API
+struct TradingCalendar <: FreePlanAPI
     holidaydivision::AbstractString
     from::AbstractString
     to::AbstractString
@@ -288,7 +296,7 @@ julia> using JQuants
 julia> fetch(FinsDetails(code="8697", date="2018-01-01"))
 ```
 """
-struct FinsDetails <: API
+struct FinsDetails <: PremiumPlanAPI
     code::AbstractString
     date::AbstractString
 end;
