@@ -53,26 +53,26 @@ function PricesAM(;code="")
 end
 
 
-struct MarketsTradeSpec <: API
+struct MarketsTradesSpec <: API
     section::AbstractString
     from::AbstractString
     to::AbstractString
 end;
 
-function MarketsTradeSpec(;section="", from="", to="")
+function MarketsTradesSpec(;section="", from="", to="")
     from_str = date2str(from)
     to_str = date2str(to)
 
     if isempty(section) && isempty(from_str) && isempty(to_str)
-        MarketsTradeSpec("", "", "")
+        MarketsTradesSpec("", "", "")
     elseif !isempty(section)
         if isempty(from_str) || isempty(to_str)
-            MarketsTradeSpec(section, "", "")
+            MarketsTradesSpec(section, "", "")
         else
-            MarketsTradeSpec(section, from_str, to_str)
+            MarketsTradesSpec(section, from_str, to_str)
         end
     elseif !isempty(from_str) || !isempty(to_str)
-        MarketsTradeSpec("", from_str, to_str)
+        MarketsTradesSpec("", from_str, to_str)
     else 
         @show section, from, to
         error("Unsupported combination.")

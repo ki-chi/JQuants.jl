@@ -173,7 +173,7 @@ function datascheme(::PricesAM)
     ])
 end
 
-function datascheme(::MarketsTradeSpec)
+function datascheme(::MarketsTradesSpec)
     DataScheme([
         ColType(:PublishedDate, String, Date),
         ColType(:StartDate, String, Date),

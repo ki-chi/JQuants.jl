@@ -7,7 +7,7 @@ endpoint(::TokenAuthRefresh) = JQUANTS_URI * "/token/auth_refresh";
 endpoint(::ListedInfo) = JQUANTS_URI * "/listed/info";
 endpoint(::PricesDailyQuotes) = JQUANTS_URI * "/prices/daily_quotes";
 endpoint(::PricesAM) = JQUANTS_URI * "/prices/prices_am";
-endpoint(::MarketsTradeSpec) = JQUANTS_URI * "/markets/trades_spec";
+endpoint(::MarketsTradesSpec) = JQUANTS_URI * "/markets/trades_spec";
 endpoint(::MarketsWeeklyMarginInterest) = JQUANTS_URI * "/markets/weekly_margin_interest";
 endpoint(::MarketsShortSelling) = JQUANTS_URI * "/markets/short_selling";
 endpoint(::MarketsBreakdown) = JQUANTS_URI * "/markets/breakdown";
@@ -29,7 +29,7 @@ end
 jsonkeyname(::ListedInfo) = "info";
 jsonkeyname(::PricesDailyQuotes) = "daily_quotes";
 jsonkeyname(::PricesAM) = "prices_am";
-jsonkeyname(::MarketsTradeSpec) = "trades_spec";
+jsonkeyname(::MarketsTradesSpec) = "trades_spec";
 jsonkeyname(::MarketsWeeklyMarginInterest) = "weekly_margin_interest";
 jsonkeyname(::MarketsShortSelling) = "short_selling";
 jsonkeyname(::MarketsBreakdown) = "breakdown";

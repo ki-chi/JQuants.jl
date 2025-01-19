@@ -13,7 +13,7 @@ export authorize
 # APIs
 export fetch
 export TokenAuthUser, TokenAuthRefresh, ListedInfo,
-    PricesDailyQuotes, PricesAM, MarketsTradeSpec,
+    PricesDailyQuotes, PricesAM, MarketsTradesSpec,
     MarketsWeeklyMarginInterest, MarketsShortSelling,
     MarketsBreakdown, Indices, IndicesTopix, FinsStatements,
     FinsDividend, FinsAnnouncement, OptionIndexOption,
