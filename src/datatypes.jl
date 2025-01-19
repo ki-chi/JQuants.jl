@@ -1,4 +1,14 @@
 """
+   RestrictionLevel
+"""
+@enum RestrictionLevel begin
+    same_as_api=0
+    require_lite_plan=1
+    require_standard_plan=2
+    require_premium_plan=3
+end
+
+"""
     ColType
 
 The definition of the column type conversion.
@@ -8,6 +18,7 @@ The definition of the column type conversion.
 - `original::Union{DataType,Union}`: The original type of the column.
 - `target::Union{DataType,Union}`: The target type of the column.
 - `convert::Union{Function,Nothing}`: The function to convert the column to the target type.
+- `is_restricted::Bool`: Whether the column is restricted by the pricing plan.
 
 """
 struct ColType
@@ -15,9 +26,11 @@ struct ColType
     original::Union{DataType,Union}
     target::Union{DataType,Union}
     convert::Union{Function,Nothing}
+    restriction_level::RestrictionLevel
 end
 
-ColType(name, original, target) = ColType(name, original, target, nothing)
+ColType(name, original, target) = ColType(name, original, target, nothing, same_as_api)
+ColType(name, original, target, func) = ColType(name, original, target, func, same_as_api)
 
 """
     DataScheme
@@ -106,8 +119,6 @@ function datascheme(::ListedInfo)
         ColType(:ScaleCategory, String, String),
         ColType(:MarketCode, String, String),
         ColType(:MarketCodeName, String, String),
-        ColType(:MarginCode, String, String),
-        ColType(:MarginCodeName, String, String),
     ])
 end
 
@@ -129,34 +140,34 @@ function datascheme(::PricesDailyQuotes)
         ColType(:AdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:AdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}),
         ColType(:AdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningLow, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningClose, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningUpperLimit, String, String),
-        ColType(:MorningLowerLimit, String, String),
-        ColType(:MorningVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningTurnoverValue, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningAdjustmentFactor, Float64, Float64),
-        ColType(:MorningAdjustmentOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningAdjustmentHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningAdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningAdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:MorningAdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonLow, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonClose, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonUpperLimit, String, String),
-        ColType(:AfternoonLowerLimit, String, String),
-        ColType(:AfternoonTurnoverValue, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonAdjustmentFactor, Float64, Float64),
-        ColType(:AfternoonAdjustmentOpen, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonAdjustmentHigh, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonAdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonAdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}),
-        ColType(:AfternoonAdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}),
+        ColType(:MorningOpen, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningHigh, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningLow, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningClose, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningUpperLimit, String, String, nothing, require_premium_plan),
+        ColType(:MorningLowerLimit, String, String, nothing, require_premium_plan),
+        ColType(:MorningVolume, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningTurnoverValue, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentFactor, Float64, Float64, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentOpen, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentHigh, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:MorningAdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonOpen, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonHigh, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonLow, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonClose, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonVolume, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonUpperLimit, String, String, nothing, require_premium_plan),
+        ColType(:AfternoonLowerLimit, String, String, nothing, require_premium_plan),
+        ColType(:AfternoonTurnoverValue, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentFactor, Float64, Float64, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentOpen, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentHigh, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentLow, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentClose, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
+        ColType(:AfternoonAdjustmentVolume, Union{Nothing,Float64}, Union{Float64,Missing}, nothing, require_premium_plan),
     ])
 end
 
@@ -359,8 +370,7 @@ function datascheme(::FinsStatements)
         ColType(:NextYearForecastDividendPerShareFiscalYearEnd, String, Union{Float64,Missing}),
         ColType(:NextYearForecastDividendPerShareAnnual, String, Union{Float64,Missing}),
         ColType(Symbol("NextYearForecastDistributionPerUnit(REIT),"), String, Union{Float64,Missing}),
-        # ColType(:NextYearForecastTotalDividendPaidAnnual, String, Union{Float64,Missing}  # 定義書にはこれがない
-        ColType(:NextYearForecastPayoutRatioAnnual, String, Union{Float64,Missing}),  # こちらは定義が間違ってるかも？
+        ColType(:NextYearForecastPayoutRatioAnnual, String, Union{Float64,Missing}),
 
         ColType(:ForecastNetSales2ndQuarter, String, Union{Float64,Missing}),
         ColType(:ForecastOperatingProfit2ndQuarter, String, Union{Float64,Missing}),

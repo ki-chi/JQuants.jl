@@ -3,6 +3,32 @@ using DataFrames
 using Test
 using Dates
 
+function check_scheme_names(df::DataFrame, datascheme::JQuants.DataScheme; skippremiumplan=false)
+    expected_colnames = []
+    for coltype in datascheme
+        if coltype.restriction_level == JQuants.require_premium_plan && skippremiumplan
+            continue
+        end
+
+        push!(expected_colnames, string(coltype.name))
+    end
+    return sort(names(df)) == sort(expected_colnames)
+end
+
+function check_scheme_types(df::DataFrame, datascheme::JQuants.DataScheme; skippremiumplan=false)
+    bools = []
+    for coltype in datascheme
+        if coltype.restriction_level == JQuants.require_premium_plan && skippremiumplan
+            continue
+        end
+
+        expected_name = string(coltype.name)
+        expected_type = coltype.target
+        eltype(df[!, expected_name]) == expected_type ? push!(bools, true) : push!(bools, false)
+    end
+    return all(bools) 
+end
+
 @testset "Undefined tokens error" begin
     @test_throws JQuants.JQuantsInvalidTokenError fetch(ListedInfo(code="86970"))
 end
@@ -31,14 +57,10 @@ test_holiday = fetch(TradingCalendar(holidaydivision="0")) |> (df -> subset(df, 
 @testset "Listed issues information" begin
     code = "86970"  # JPX
     listed_info = fetch(ListedInfo(code=code, date=test_date))
+    scheme = JQuants.datascheme(ListedInfo(code=code, date=test_date))
 
-    expected_colnames = [
-        "Date", "Code", "CompanyName", "CompanyNameEnglish", "Sector17Code",
-        "Sector17CodeName", "Sector33Code", "Sector33CodeName",
-        "ScaleCategory", "MarketCode", "MarketCodeName",
-    ]
-
-    @test sort(names(listed_info)) == sort(expected_colnames)
+    @test check_scheme_names(listed_info, scheme)
+    @test check_scheme_types(listed_info, scheme)
 
     @test listed_info[begin, :Code] == "86970"
     @test listed_info[begin, :CompanyName] == "日本取引所グループ"
@@ -55,25 +77,10 @@ end
 
 @testset "Daily prices" begin
     daily_quotes = fetch(PricesDailyQuotes(date=test_date))
-    expected_colnames = [
-        "AdjustmentClose", "AdjustmentFactor",
-        "AdjustmentHigh", "AdjustmentLow", "AdjustmentOpen", "AdjustmentVolume",
-        "Close", "Code", "Date", "High", "Low", "Open", "TurnoverValue", "Volume",
-        "LowerLimit", "UpperLimit"
-    ]
-    expected_coltypes = [
-        Union{Missing, Float64}, Float64,
-        Union{Missing, Float64}, Union{Missing, Float64}, Union{Missing, Float64},
-        Union{Missing, Float64}, Union{Missing, Float64}, String, Date,
-        Union{Missing, Float64}, Union{Missing, Float64}, Union{Missing, Float64},
-        Union{Missing, Float64}, Union{Missing, Float64}
-    ]
+    scheme = JQuants.datascheme(PricesDailyQuotes(date=test_date))
 
-    @test sort(names(daily_quotes)) == sort(expected_colnames)
-
-    for (colname, coltype) in zip(expected_colnames, expected_coltypes)
-        @test eltype(daily_quotes[!, colname]) == coltype 
-    end
+    @test check_scheme_names(daily_quotes, scheme, skippremiumplan=true)
+    @test check_scheme_types(daily_quotes, scheme, skippremiumplan=true)
 
     # No output on a holiday
     daily_quotes_null = fetch(PricesDailyQuotes(date=test_holiday))
