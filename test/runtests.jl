@@ -39,6 +39,46 @@ function check_scheme_types(df::DataFrame, datascheme::JQuants.DataScheme; skipp
     return all(bools) 
 end
 
+"""
+Infer the pricing plan based on the API endpoint.
+"""
+function infer_subscription_plan(date)
+    try
+        fetch(FinsDetails(code="86970"));
+        return "Premium"
+    catch
+        try 
+            fetch(MarketsShortSelling(date=date))
+            return "Standard"
+        catch
+            try
+                fetch(IndicesTopix())
+                return "Lite"
+            catch
+                return "Free"
+            end
+        end
+    end
+    throw("Unknown error")
+end
+
+"""
+Check if the API is permitted based on the pricing plan.
+"""
+function can_access_api(api::JQuants.API, plan)
+    if plan == "Free" && !(api isa JQuants.FreePlanAPI)
+        return false
+    elseif plan == "Lite" && !(api isa JQuants.LitePlanAPI)
+        return false
+    elseif plan == "Standard" && !(api isa JQuants.StandardPlanAPI)
+        return false
+    elseif plan == "Premium" && !(api isa JQuants.PremiumPlanAPI)
+        return false
+    end
+    return true
+end
+
+
 @testset "Undefined tokens error" begin
     @test_throws JQuants.JQuantsInvalidTokenError fetch(ListedInfo(code="86970"))
 end
@@ -118,5 +158,18 @@ end
     @test check_scheme_types(ann, scheme)
 end
 
-    @test sort(names(ann)) == sort(expected_colnames)
+@testset "MarketsTradesSpec" begin
+    api = MarketsTradesSpec(section="TSEPrime")
+     
+    if !can_access_api(api, infer_subscription_plan(test_date))
+        @info "Skipping test because the user is not permitted to access the API."
+        return
+    end
+
+    markets_trades_spec = fetch(api)
+    scheme = JQuants.datascheme(api)
+
+    @test check_scheme_names(markets_trades_spec, scheme)
+    @test check_scheme_types(markets_trades_spec, scheme)
+
 end
