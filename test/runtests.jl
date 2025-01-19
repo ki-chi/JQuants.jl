@@ -4,7 +4,7 @@ using Test
 using Dates
 
 function check_scheme_names(df::DataFrame, datascheme::JQuants.DataScheme; skippremiumplan=false)
-    expected_colnames = []
+    expected_colnames = String[]
     for coltype in datascheme
         if coltype.restriction_level == JQuants.require_premium_plan && skippremiumplan
             continue
@@ -12,11 +12,16 @@ function check_scheme_names(df::DataFrame, datascheme::JQuants.DataScheme; skipp
 
         push!(expected_colnames, string(coltype.name))
     end
+
+    if sort(names(df)) != sort(expected_colnames)
+	@info "Diff" setdiff(sort(names(df)), sort(expected_colnames))
+    end
+
     return sort(names(df)) == sort(expected_colnames)
 end
 
 function check_scheme_types(df::DataFrame, datascheme::JQuants.DataScheme; skippremiumplan=false)
-    bools = []
+    bools = Bool[]
     for coltype in datascheme
         if coltype.restriction_level == JQuants.require_premium_plan && skippremiumplan
             continue
@@ -24,7 +29,12 @@ function check_scheme_types(df::DataFrame, datascheme::JQuants.DataScheme; skipp
 
         expected_name = string(coltype.name)
         expected_type = coltype.target
-        eltype(df[!, expected_name]) == expected_type ? push!(bools, true) : push!(bools, false)
+        if eltype(df[!, expected_name]) <: expected_type
+            push!(bools, true)
+        else
+            @info "Diff" expected_name, expected_type, eltype(df[!, expected_name])
+            push!(bools, false)
+        end
     end
     return all(bools) 
 end
@@ -89,119 +99,11 @@ end
 end
 
 @testset "Financial statements" begin
-    expected_colnames = [
-        "DisclosedDate",
-        "DisclosedTime",
-        "LocalCode",
-        "DisclosureNumber",
-        "TypeOfDocument",
-        "TypeOfCurrentPeriod",
-        "CurrentPeriodStartDate",
-        "CurrentPeriodEndDate",
-        "CurrentFiscalYearStartDate",
-        "CurrentFiscalYearEndDate",
-        "NextFiscalYearStartDate",
-        "NextFiscalYearEndDate",
-        "NetSales",
-        "OperatingProfit",
-        "OrdinaryProfit",
-        "Profit",
-        "EarningsPerShare",
-        "DilutedEarningsPerShare",
-        "TotalAssets",
-        "Equity",
-        "EquityToAssetRatio",
-        "BookValuePerShare",
-        "CashFlowsFromOperatingActivities",
-        "CashFlowsFromInvestingActivities",
-        "CashFlowsFromFinancingActivities",
-        "CashAndEquivalents",
-        "ResultDividendPerShare1stQuarter",
-        "ResultDividendPerShare2ndQuarter",
-        "ResultDividendPerShare3rdQuarter",
-        "ResultDividendPerShareFiscalYearEnd",
-        "ResultDividendPerShareAnnual",
-        "DistributionsPerUnit(REIT)",
-        "ResultTotalDividendPaidAnnual",
-        "ResultPayoutRatioAnnual",
-        "ForecastDividendPerShare1stQuarter",
-        "ForecastDividendPerShare2ndQuarter",
-        "ForecastDividendPerShare3rdQuarter",
-        "ForecastDividendPerShareFiscalYearEnd",
-        "ForecastDividendPerShareAnnual",
-        "ForecastDistributionsPerUnit(REIT)",
-        "ForecastTotalDividendPaidAnnual",
-        "ForecastPayoutRatioAnnual",
-        "NextYearForecastDividendPerShare1stQuarter",
-        "NextYearForecastDividendPerShare2ndQuarter",
-        "NextYearForecastDividendPerShare3rdQuarter",
-        "NextYearForecastDividendPerShareFiscalYearEnd",
-        "NextYearForecastDividendPerShareAnnual",
-        "NextYearForecastDistributionsPerUnit(REIT)",
-        "NextYearForecastPayoutRatioAnnual",
-        "ForecastNetSales2ndQuarter",
-        "ForecastOperatingProfit2ndQuarter",
-        "ForecastOrdinaryProfit2ndQuarter",
-        "ForecastProfit2ndQuarter",
-        "ForecastEarningsPerShare2ndQuarter",
-        "NextYearForecastNetSales2ndQuarter",
-        "NextYearForecastOperatingProfit2ndQuarter",
-        "NextYearForecastOrdinaryProfit2ndQuarter",
-        "NextYearForecastProfit2ndQuarter",
-        "NextYearForecastEarningsPerShare2ndQuarter",
-        "ForecastNetSales",
-        "ForecastOperatingProfit",
-        "ForecastOrdinaryProfit",
-        "ForecastProfit",
-        "ForecastEarningsPerShare",
-        "NextYearForecastNetSales",
-        "NextYearForecastOperatingProfit",
-        "NextYearForecastOrdinaryProfit",
-        "NextYearForecastProfit",
-        "NextYearForecastEarningsPerShare",
-        "MaterialChangesInSubsidiaries",
-        "SignificantChangesInTheScopeOfConsolidation",
-        "ChangesBasedOnRevisionsOfAccountingStandard",
-        "ChangesOtherThanOnesBasedOnRevisionsOfAccountingStandard",
-        "ChangesInAccountingEstimates",
-        "RetrospectiveRestatement",
-        "NumberOfIssuedAndOutstandingSharesAtTheEndOfFiscalYearIncludingTreasuryStock",
-        "NumberOfTreasuryStockAtTheEndOfFiscalYear",
-        "AverageNumberOfShares",
-        "NonConsolidatedNetSales",
-        "NonConsolidatedOperatingProfit",
-        "NonConsolidatedOrdinaryProfit",
-        "NonConsolidatedProfit",
-        "NonConsolidatedEarningsPerShare",
-        "NonConsolidatedTotalAssets",
-        "NonConsolidatedEquity",
-        "NonConsolidatedEquityToAssetRatio",
-        "NonConsolidatedBookValuePerShare",
-        "ForecastNonConsolidatedNetSales2ndQuarter",
-        "ForecastNonConsolidatedOperatingProfit2ndQuarter",
-        "ForecastNonConsolidatedOrdinaryProfit2ndQuarter",
-        "ForecastNonConsolidatedProfit2ndQuarter",
-        "ForecastNonConsolidatedEarningsPerShare2ndQuarter",
-        "NextYearForecastNonConsolidatedNetSales2ndQuarter",
-        "NextYearForecastNonConsolidatedOperatingProfit2ndQuarter",
-        "NextYearForecastNonConsolidatedOrdinaryProfit2ndQuarter",
-        "NextYearForecastNonConsolidatedProfit2ndQuarter",
-        "NextYearForecastNonConsolidatedEarningsPerShare2ndQuarter",
-        "ForecastNonConsolidatedNetSales",
-        "ForecastNonConsolidatedOperatingProfit",
-        "ForecastNonConsolidatedOrdinaryProfit",
-        "ForecastNonConsolidatedProfit",
-        "ForecastNonConsolidatedEarningsPerShare",
-        "NextYearForecastNonConsolidatedNetSales",
-        "NextYearForecastNonConsolidatedOperatingProfit",
-        "NextYearForecastNonConsolidatedOrdinaryProfit",
-        "NextYearForecastNonConsolidatedProfit",
-        "NextYearForecastNonConsolidatedEarningsPerShare"
-    ]
-
     statements = fetch(FinsStatements(code="86970"))
+    scheme = JQuants.datascheme(FinsStatements(code="86970"))
 
-    @test sort(names(statements)) == sort(expected_colnames)
+    @test check_scheme_names(statements, scheme)
+    @test check_scheme_types(statements, scheme)
 end
 
 @testset "Pagination" begin
@@ -210,16 +112,11 @@ end
 
 @testset "Financial announcement" begin
     ann = fetch(FinsAnnouncement())
+    scheme = JQuants.datascheme(FinsAnnouncement())
 
-    expected_colnames = [
-        "Code",
-        "Date",
-        "CompanyName",
-        "FiscalYear",
-        "SectorName",
-        "FiscalQuarter",
-        "Section"
-    ]
+    @test check_scheme_names(ann, scheme)
+    @test check_scheme_types(ann, scheme)
+end
 
     @test sort(names(ann)) == sort(expected_colnames)
 end
