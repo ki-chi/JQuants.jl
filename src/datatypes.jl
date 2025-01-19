@@ -381,6 +381,7 @@ function datascheme(::FinsStatements)
         ColType(:ForecastEarningsPerShare, String, Union{Float64,Missing}),
         
         ColType(:MaterialChangesInSubsidiaries, String, Union{Bool,Missing}, str2bool),
+        ColType(:SignificantChangesInTheScopeOfConsolidation, String, Union{Bool,Missing}, str2bool),
         ColType(:ChangesBasedOnRevisionsOfAccountingStandard, String, Union{Bool,Missing}, str2bool),
         ColType(:ChangesOtherThanOnesBasedOnRevisionsOfAccountingStandard, String, Union{Bool,Missing}, str2bool),
         ColType(:ChangesInAccountingEstimates, String, Union{Bool,Missing}, str2bool),
