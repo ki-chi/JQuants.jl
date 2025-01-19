@@ -173,3 +173,18 @@ end
     @test check_scheme_types(markets_trades_spec, scheme)
 
 end
+
+@testset "IndicesTopix" begin
+    api = IndicesTopix()
+
+    if !can_access_api(api, infer_subscription_plan(test_date))
+        @info "Skipping test because the user is not permitted to access the API."
+        return
+    end
+
+    indices_topix = fetch(api)
+    scheme = JQuants.datascheme(api)
+
+    @test check_scheme_names(indices_topix, scheme)
+    @test check_scheme_types(indices_topix, scheme)
+end
